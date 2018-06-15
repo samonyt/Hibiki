@@ -25,7 +25,7 @@ module.exports = class Steam extends Command {
             const { body } = await get(`https://api.alexflipnote.xyz/steam/user/${user}`);
             const embed = new MessageEmbed()
                 .setColor(0x000000)
-                .setAuthor(t("commands.steam.author"[0]), t("commands.steam.author"[1]), t("commands.steam.author"[2]))
+                .setAuthor(t("commands.steam.author")[0], t("commands.steam.author")[1], t("commands.steam.author")[2])
                 .setThumbnail(body.avatars.avatarmedium)
                 .addField(t("commands.steam.username"),
                     body.profile.username, true)

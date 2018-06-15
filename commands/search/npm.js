@@ -23,7 +23,7 @@ module.exports = class NPM extends Command {
 
     async run(msg, { pkg }) {
         const { trimArray } = this.client.utils.Util;
-        const t = this.client.translate();
+        const t = (str) => this.client.translate(str);
         try {
             const { body } = await get(`https://registry.npmjs.com/${pkg}`);
             if (body.time.unpublished) return msg.say(t("commands.npm.404"));
