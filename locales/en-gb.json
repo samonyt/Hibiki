@@ -71,6 +71,7 @@
     "commands.steam.state": "❯ State",
     "commands.steam.privacy": "❯ Privacy",
     "commands.steam.location": "❯ Location",
+    "commands.steam.summary": "❯ Summary",
     "commands.steam.vacBans": "❯ Is VAC banned",
     "commands.steam.customURL": "❯ Custom URL",
     "commands.uptime.response": "**%s** was up for **%s**.",
