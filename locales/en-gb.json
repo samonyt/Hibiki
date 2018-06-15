@@ -78,7 +78,7 @@
     "commands.user.id": "❯ ID",
     "commands.user.createdAt": "❯ Created at",
     "commands.user.joinedAt": "❯ Joined at",
-    "commands.user.nickname": " Nickname",
+    "commands.user.nickname": "❯ Nickname",
     "commands.user.bot": "❯ Is bot?",
     "commands.user.status": "❯ Status",
     "commands.user.game": "❯ Game",
