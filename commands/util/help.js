@@ -26,7 +26,6 @@ module.exports = class Help extends Command {
         if (!command) {
             const embed = new MessageEmbed()
                 .setTitle("Command List")
-                .setDescription(`Use ${msg.usage("<command>")} to view detailed information about a command.`)
                 .setColor(0x00AE86)
                 .setFooter(`${this.client.registry.commands.size} Commands`);
             for (const group of this.client.registry.groups.values()) {
@@ -34,7 +33,9 @@ module.exports = class Help extends Command {
             }
             try {
                 const msgs = [];
-                msgs.push(await msg.direct({ embed }));
+                msgs.push(await msg.direct(stripIndents`
+                    Use ${msg.usage("<command>")} to view detailed information about a command. The support server is ${this.client.options.invite}.
+                ` ,{ embed }));
                 if (msg.channel.type !== "dm") msgs.push(await msg.say("📬 Sent you a DM with information."));
                 return msgs;
             } catch (err) {
