@@ -6,7 +6,7 @@ module.exports = class DocsCommand extends Command {
     constructor(client) {
         super(client, {
             name: "docs",
-            group: "docs",
+            group: "search",
             memberName: "docs",
             description: "Searches discord.js documentation.",
             throttling: {
