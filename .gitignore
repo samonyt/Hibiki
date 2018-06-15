@@ -1,0 +1,15 @@
+# PM2 Logs
+logs
+
+# Visual Studio Code
+.vscode
+
+# NPM
+node_modules
+package-lock.json
+
+# Yarn
+yarn.lock
+
+# Config
+config

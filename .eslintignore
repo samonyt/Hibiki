@@ -1,0 +1,5 @@
+web/*
+!web/index.js
+/node_modules
+/logs
+/config

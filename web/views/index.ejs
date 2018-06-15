@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Rin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="msapplication-TileColor" content="#212121">
+    <meta name="msapplication-square150 150logo" content="https://rin.tishdev.me/img/favicon.png">
+    <meta property="og:image" content="https://rin.tishdev.me/img/favicon.png">
+    <meta property="og:title" content="Rin" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="A website for Rin Discord bot." />
+    <meta property="og:description" content="Discord bot." />
+    <meta name="theme-color" content="#212121">
+    <meta property="og:url" content="http://rin.tishdev.me/" />
+    <meta property="og:site_name" content="Rin" />
+    <link rel="canonical" href="https://rin.tishdev.me/" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="apple-touch-icon" href="https://rin.tishdev.me/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+    <link href="static/css/fontawesome-all.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" href="static/css/style.css" />
+    <link rel="stylesheet" href="static/css/animate.css" />
+    <link rel="shortcut icon" href="static/img/favicon.png" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div class="container">
+        <br><br><br><br><br><br><br><br>
+        <h2 class="animated fadeInDown" id="main-text"><img class="animated fadeInDown circle responsive-img" height="50" width="50" src=https://cdn.discordapp.com/avatars/<%= client.user.id %>/<%= client.user.avatar %>.png?size=128"> <%= client.user.username %></h2>
+        <p class="animated fadeInDown" id="second-text">Rin is a fun, moderation and utility Discord bot for all your needs.</p>
+        <p class="animated fadeInDown" id="third-text">I'm serving <%= client.guilds.size %> servers, <%= client.users.size %> users, and <%= client.channels.size %> channels.</p>
+        <div class="center-align">
+        <a class="animated fadeInDown waves-effect waves-light btn" href="/" id="btn-home"><i class="fas fa-home"></i> Home</a>
+        <a class="animated fadeInDown waves-effect waves-light btn" href="/login" id="btn-login"><i class="fas fa-door-open"></i> Login</a>
+    </div>
+    </div>
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>
