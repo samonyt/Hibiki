@@ -30,28 +30,28 @@ module.exports = class SlotsCommand extends Command {
 			**${slots1} | ${slots2} | ${slots3}**
 			**${slotOne} | ${slotTwo} | ${slotThree} <=**
 			**${slot1} | ${slot2} | ${slot3}**
-			${this.client.translate("commands.slots.won"), msg.author.username}
+			${this.client.translate("commands.slots.won",  msg.author.username)}
 			`);
         } else if (slots1 === slots2 && slots1 === slots3) {
             return msg.say(stripIndents`
 			**${slots1} | ${slots2} | ${slots3} <=**
 			**${slotOne} | ${slotTwo} | ${slotThree} **
 			**${slot1} | ${slot2} | ${slot3}**
-            ${this.client.translate("commands.slots.won"), msg.author.username}
+            ${this.client.translate("commands.slots.won", msg.author.username)}
 			`);
         } else if (slot1 === slot2 && slot1 === slot3) {
             return msg.say(stripIndents`
 			**${slots1} | ${slots2} | ${slots3}**
 			**${slotOne} | ${slotTwo} | ${slotThree}**
 			**${slot1} | ${slot2} | ${slot3} <=**
-            ${this.client.translate("commands.slots.won"), msg.author.username}
+            ${this.client.translate("commands.slots.won",  msg.author.username)}
 			`);
         } else {
             return msg.say(stripIndents`
 			**${slots1} | ${slots2} | ${slots3}**
 			**${slotOne} | ${slotTwo} | ${slotThree}**
 			**${slot1} | ${slot2} | ${slot3}**
-			${this.client.translate("commands.slots.lost"), msg.author.username}
+			${this.client.translate("commands.slots.lost", msg.author.username)}
 		`);
         }
     }
