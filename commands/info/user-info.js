@@ -43,6 +43,6 @@ module.exports = class UserInfo extends Command {
                 this.client.utils.Status(member.user.presence.status), true)
             .addField(t("commands.user.game"),
                 member.user.presence.game ? member.user.presence.game.name : "None", true);
-        msg.say(t("commands.user.response", member.user.username), { embed });
+        msg.embed(embed);
     }
 };

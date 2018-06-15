@@ -46,7 +46,7 @@ module.exports = class ServerInfo extends Command {
                 `${verificationLevels[msg.guild.verificationLevel]}`, true)
             .addField(t("commands.server.afk"),
                 `${msg.guild.afkChannelID ? `<#${msg.guild.afkChannelID}> after ${msg.guild.afkTimeout / 60}min` : "None"}`, true);
-        return msg.say(t("commands.server.response", msg.guild.name), { embed });
+        return msg.embed(embed);
 
     }
 };
