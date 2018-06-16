@@ -1,6 +1,6 @@
 {
     "commands.error": "Command errored: **%s**, try again later.",
-    "commands.noModLog": "❎ | No moderation log channel set. Set one by typing **%smod-log**.",
+    "commands.noModLog": "❎ | No moderation log channel set. Set one by typing **%s mod-log**.",
     "commands.n/A": "N/A",
     "commands.ping.response": "Message latency: **%s** ms, API latency: **%s** ms",
     "commands.dick.response": "**%s**'s dick size is:\n\n**%s**",
@@ -122,5 +122,8 @@
     "commands.unban.notBanned": "❎ | This user is not banned.",
     "commands.unban.dm": "✅ | You've been unbanned from **%s** for **%s**.",
     "commands.unban.embed.response": "✅ | **User unbanned**: %s\n**Issuer**: %s\n**Reason**: %s",
-    "commands.unban.response": "✅ | Successfully unbanned **%s** for **%s**."
+    "commands.unban.response": "✅ | Successfully unbanned **%s** for **%s**.",
+    "commands.blacklist.owner": "❎ | Why would you want to blacklist an bot owner?",
+    "commands.blacklist.isBlacklisted": "❎ | That user is already blacklisted.",
+    "commands.blacklist.response": "✅ | **%s** has been blacklisted from using **%s**."
 }

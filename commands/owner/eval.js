@@ -35,7 +35,9 @@ module.exports = class Eval extends Command {
             if (typeof evaled !== "string") {
                 responseTypeOf = require("util").inspect(evaled, { depth: 0 });
             } else responseTypeOf = evaled;
-            let data = `${responseTypeOf.replace(new RegExp(`${this.client.token}|${config.keys.token}|${config.keys.osu}|${config.keys.cat}|${config.keys.yandex}`, "g"), "「ｒｅｄａｃｔｅｄ」")}`;
+            let data = `${responseTypeOf.replace(new RegExp(`
+                ${this.client.token}|${config.keys.token}|${config.keys.osu}|${config.keys.cat}|${config.keys.yandex}|${config.keys.apixu}|${config.keys.encrypt}|${config.keys.fortnite}|${config.keys.genius}|${config.keys.webhook.id}|${config.keys.webhook.token}
+            `, "g"), "「ｒｅｄａｃｔｅｄ」")}`;
             const embed = new MessageEmbed()
                 .setColor(this.client.color)
                 .setFooter(`v${this.client.version}`)
@@ -50,8 +52,6 @@ module.exports = class Eval extends Command {
                 .catch(err => winston.error(err.stack));
         }
     }
-
-
     get sensitivePattern() {
         if(!this._sensitivePattern) {
             const client = this.client;

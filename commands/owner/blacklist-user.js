@@ -28,15 +28,15 @@ module.exports = class BlacklistUser extends Command {
     }
 
     async run(msg, { user }) {
-        if (this.client.isOwner(user.id)) return msg.say("❎ | The bot owner can not be blacklisted.");
+        const t = (str) => this.client.translate(str);
+        if (this.client.isOwner(user.id)) return msg.say(t("commands.blacklist.owner"));
 
         const blacklist = await this.client.provider.get("global", "blacklistUsers", []);
-
-        if (blacklist.includes(user.id)) return msg.say("❎ | That user is already blacklisted.");
+        if (blacklist.includes(user.id)) return msg.say(t("commands.blacklist.isBlacklisted"));
 
         await blacklist.push(user.id);
         await this.client.provider.set("global", "blacklistUsers", blacklist);
-
-        return msg.say(`✅ | ${user.tag} has been blacklisted from using ${this.client.user}.`);
+        
+        return msg.say(t("commands.blacklist.response", user.tag, this.client.user));
     }
 };

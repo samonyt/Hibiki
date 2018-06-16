@@ -16,7 +16,7 @@ module.exports = class Groups extends Command {
 
     hasPermission(msg) {
         if(!msg.guild) return this.client.isOwner(msg.author);
-        return msg.member.hasPermission("MANAGE_SERVER") || this.client.isOwner(msg.author);
+        return msg.member.permissions.has("MANAGE_SERVER") || this.client.isOwner(msg.author);
     }
 
     run(msg) {
