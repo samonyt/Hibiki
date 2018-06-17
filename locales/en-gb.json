@@ -17,7 +17,7 @@
     "commands.insult.response": "%s, You know what? You're nothing but **%s %s %s**.",
     "commands.star.author": "You cannot star your own messages!",
     "commands.star.response": "**Author:** %s\n**Content:** %s\n**Date:** %s\n%s",
-    "commands.fortnite.response": "❎ | Player not found.",
+    "commands.fortnite.error": "❎ | Player not found.",
     "commands.fortnite.footer": "Information providen by the Tracker Network. | %s",
     "commands.slots.won": "Congratulations **%s**, you won! 🎉",
     "commands.slots.lost": "Aw **%s**, you lost. Better luck next time!",
