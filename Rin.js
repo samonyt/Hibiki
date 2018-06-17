@@ -22,12 +22,14 @@ Rin.bind();
 /* Events //*/
 Rin
     .on("message", (msg) => {
+        if (!msg.guild.settings.get("antiInvite")) {
+            if (msg.channel.type == "dm") return;
+        } return;
         if (msg.channel.type == "dm") {
             Rin.users.get(config.opts.ids.owner).send(stripIndents`
             📬 ${msg.author.tag} (${msg.author.id}) sent me a DM:\n${msg.content}
             `);
         }
-        if (!msg.guild.settings.get("antiInvite")) return;
         if (/(discord(\.gg\/|app\.com\/invite\/|\.me\/))/gi.test(msg.content)) {
             if (msg.author.bot || msg.member.permissions.has("MANAGE_SERVER") || msg.member.roles.has(msg.guild.settings.get("antiInviteRole"))) return;
             if (!msg.channel.permissionsFor(Rin.user).has(["SEND_MESSAGES", "MANAGE_MESSAGES"])) return;
