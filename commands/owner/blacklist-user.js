@@ -37,6 +37,6 @@ module.exports = class BlacklistUser extends Command {
         await this.client.provider.set("global", "blacklistUsers", blacklist);
         
         return msg.react("✅");
-        return msg.say(this.client.translate("commands.blacklist.response", [user.username, this.client.user.username]));
+        return msg.say(this.client.translate("commands.blacklist.response", user.username, this.client.user.username));
     }
 };
