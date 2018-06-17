@@ -27,20 +27,19 @@ module.exports = class Hackban extends Command {
     }
 
     async run(msg, { id, reason } ) {
-        const t = (str) => this.client.translate(str);
         const user = this.client.users.get(id);
-        if (!msg.guild.me.permissions.has("BAN_MEMBERS")) return msg.say(t("commands.ban.me.noPerms"));
+        if (!msg.guild.me.permissions.has("BAN_MEMBERS")) return msg.say(this.client.translate("commands.ban.me.noPerms"));
         const modlog = await msg.guild.channels.get(msg.guild.settings.get("modLog"));
-        if (!modlog) return msg.say(t("commands.noModLog", msg.guild.commandPrefix));
+        if (!modlog) return msg.say(this.client.translate("commands.noModLog", msg.guild.commandPrefix));
         try {
             const embed = new MessageEmbed()
                 .setColor(0xff0000)
-                .setDescription(t("commands.hackban.embed.response", user ? user.tag : "I was unable to display the user :(", user.id), msg.author.tag, reason);
+                .setDescription(this.client.translate("commands.hackban.embed.response", user ? user.tag : "I was unable to display the user :(", user.id), msg.author.tag, reason);
             await msg.guild.members.ban(id, { days: 0, reason });
             await modlog.send({ embed });
-            await msg.say(t("commands.hackban.response", user.tag, reason));
+            await msg.say(this.client.translate("commands.hackban.response", user.tag, reason));
         } catch (err) {
-            await msg.say(t("commands.error", err.message));
+            await msg.say(this.client.translate("commands.error", err.message));
         }
     }
 };

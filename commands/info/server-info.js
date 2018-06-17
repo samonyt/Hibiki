@@ -20,31 +20,30 @@ module.exports = class ServerInfo extends Command {
         });
     }
     run(msg) {
-        const t = (str) => this.client.translate(str);
         const embed = new MessageEmbed()
             .setThumbnail(msg.guild.iconURL({ size: 2048 }))
             .setColor(0x0E2F44)
-            .addField(t("commands.server.name"),
+            .addField(this.client.translate("commands.server.name"),
                 `${msg.guild.name}`, true)
-            .addField(t("commands.server.id"),
+            .addField(this.client.translate("commands.server.id"),
                 `${msg.guild.id}`, true)
-            .addField(t("commands.server.createdAt"),
+            .addField(this.client.translate("commands.server.createdAt"),
                 `${moment.utc(msg.guild.createdAt).format("MMMM Do YYYY, HH:mm:ss")}`, true)
-            .addField(t("commands.server.region"),
+            .addField(this.client.translate("commands.server.region"),
                 `${this.client.utils.Region(msg.guild.region)}`, true)
-            .addField(t("commands.server.owner"),
+            .addField(this.client.translate("commands.server.owner"),
                 `${this.client.users.get(msg.guild.ownerID).tag} 👑`, true)
-            .addField(t("commands.server.members"),
+            .addField(this.client.translate("commands.server.members"),
                 `${msg.guild.memberCount}`, true)
-            .addField(t("commands.server.roles"),
+            .addField(this.client.translate("commands.server.roles"),
                 `${msg.guild.roles.size}`, true)
-            .addField(t("commands.server.channels"),
+            .addField(this.client.translate("commands.server.channels"),
                 `${msg.guild.channels.size}`, true)
-            .addField(t("commands.server.filter"),
+            .addField(this.client.translate("commands.server.filter"),
                 `${filterLevels[msg.guild.explicitContentFilter]}`, true)
-            .addField(t("commands.server.verifLevel"),
+            .addField(this.client.translate("commands.server.verifLevel"),
                 `${verificationLevels[msg.guild.verificationLevel]}`, true)
-            .addField(t("commands.server.afk"),
+            .addField(this.client.translate("commands.server.afk"),
                 `${msg.guild.afkChannelID ? `<#${msg.guild.afkChannelID}> after ${msg.guild.afkTimeout / 60}min` : "None"}`, true);
         return msg.embed(embed);
 

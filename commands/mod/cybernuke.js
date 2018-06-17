@@ -34,8 +34,7 @@ module.exports = class Cybernuke extends Command {
     }
 
     async run(msg, { age, join }) {
-        const t = (str) => this.client.translate(str);
-        const statusMsg = await msg.say(t("commands.cybernuke.status"));
+        const statusMsg = await msg.say(this.client.translate("commands.cybernuke.status"));
         await msg.guild.members.fetch();
 
         const memberCutoff = Date.now() - (join * 60000);
@@ -45,7 +44,7 @@ module.exports = class Cybernuke extends Command {
         );
         const booleanType = this.client.registry.types.get("boolean");
 
-        await statusMsg.edit(t("commands.cybernuke.strike", members.size));
+        await statusMsg.edit(this.client.translate("commands.cybernuke.strike", members.size));
         let response;
         let statusMsg2;
 
@@ -57,20 +56,20 @@ module.exports = class Cybernuke extends Command {
             });
 
             if (!responses || responses.size !== 1) {
-                await msg.say(t("commands.cybernuke.cancel"));
+                await msg.say(this.client.translate("commands.cybernuke.cancel"));
                 return null;
             }
             response = responses.first();
 
             if (booleanType.validate(response.content)) {
                 if (!booleanType.parse(response.content)) {
-                    await response.reply(t("commands.cybernuke.cancel"));
+                    await response.reply(this.client.translate("commands.cybernuke.cancel"));
                     return null;
                 }
 
-                statusMsg2 = await response.reply(t("commands.cybernuke.launch"));
+                statusMsg2 = await response.reply(this.client.translate("commands.cybernuke.launch"));
             } else {
-                await response.reply(t("commands.cybernuke.unknownResponse"));
+                await response.reply(this.client.translate("commands.cybernuke.unknownResponse"));
             }
         }
         /* eslint-enable no-await-in-loop */
@@ -81,7 +80,7 @@ module.exports = class Cybernuke extends Command {
 
         for (const member of members.values()) {
             promises.push(
-                member.send(t("commands.cybernuke.dm")).catch(err => winston.error(err.stack))
+                member.send(this.client.translate("commands.cybernuke.dm")).catch(err => winston.error(err.stack))
                     .then(() => member.ban())
                     .then(() => {
                         fatalities.push(member);
@@ -96,19 +95,19 @@ module.exports = class Cybernuke extends Command {
                     .then(() => {
                         if (members.size <= 5) return;
                         if (promises.length % 5 === 0) {
-                            statusMsg2.edit(t("commands.cybernuke.launchAlt", Math.round(promises.length / members.size * 100) + "%"));
+                            statusMsg2.edit(this.client.translate("commands.cybernuke.launchAlt", Math.round(promises.length / members.size * 100) + "%"));
                         }
                     })
             );
         }
 
         await Promise.all(promises);
-        await statusMsg2.edit(t("commands.cybernuke.impact"));
+        await statusMsg2.edit(this.client.translate("commands.cybernuke.impact"));
         
         await response.reply(stripIndents`
-            ${t("commands.cybernuke.fatalities", fatalities.length > 0 ? fatalities.length : "None")}
+            ${this.client.translate("commands.cybernuke.fatalities", fatalities.length > 0 ? fatalities.length : "None")}
 
-            ${t("commands.cybernuke.survivors", survivors.length, `${survivors.map(srv => `**-** ${srv.member.displayName} (${srv.member.id}): \`${srv.error}\``).join("\n")}`)}
+            ${this.client.translate("commands.cybernuke.survivors", survivors.length, `${survivors.map(srv => `**-** ${srv.member.displayName} (${srv.member.id}): \`${srv.error}\``).join("\n")}`)}
         `, { split: true});
 
         return null;

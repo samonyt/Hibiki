@@ -47,9 +47,8 @@ module.exports = class Clean extends Command {
     }
 
     async run(msg, { filter, limit, member }) {
-        const t = (str) => this.client.translate(str);
         const modlog = await msg.guild.channels.get(msg.guild.settings.get("modLog"));
-        if (!modlog) return msg.say(t("commands.noModLog", msg.guild.commandPrefix));
+        if (!modlog) return msg.say(this.client.translate("commands.noModLog", msg.guild.commandPrefix));
         let messageFilter;
 
         if (filter) {
@@ -61,7 +60,7 @@ module.exports = class Clean extends Command {
                     const { user } = member;
                     messageFilter = message => message.author.id === user.id;
                 } else {
-                    return msg.say(t("commands.clean.noMention"));
+                    return msg.say(this.client.translate("commands.clean.noMention"));
                 }
             } else if (filter === "bots") {
                 messageFilter = message => message.author.bot;
@@ -72,7 +71,7 @@ module.exports = class Clean extends Command {
             } else if (filter === "links") {
                 messageFilter = message => message.content.search(/https?:\/\/[^ \/\.]+\.[^ \/\.]+/) !== -1; // eslint-disable-line no-useless-escape, max-len
             } else {
-                return msg.say(t("commands.clean.invalidFilter", msg.author.toString()));
+                return msg.say(this.client.translate("commands.clean.invalidFilter", msg.author.toString()));
             }
 
             /* eslint-disable no-unused-vars, handle-callback-err */
@@ -81,7 +80,7 @@ module.exports = class Clean extends Command {
             await msg.channel.bulkDelete(messagesToDelete.array().reverse()).catch(err => null);
             const embed = new MessageEmbed()
                 .setColor(0xff0000)
-                .setDescription(t("commands.clean.embed.response", limit, this.client.utils.Filter ? this.client.utils.Filter(filter) : "None", msg.author.tag));
+                .setDescription(this.client.translate("commands.clean.embed.response", limit, this.client.utils.Filter ? this.client.utils.Filter(filter) : "None", msg.author.tag));
             await modlog.send({ embed });
 
             return null;
@@ -91,7 +90,7 @@ module.exports = class Clean extends Command {
         await msg.channel.bulkDelete(messagesToDelete.array().reverse()).catch(err => null);
         const embed = new MessageEmbed()
             .setColor(0xff0000)
-            .setDescription(t("commands.clean.embed.responseAlt", limit, msg.channel.name, this.client.utils.Filter ? this.client.utils.Filter(filter) : "None", msg.author.tag));
+            .setDescription(this.client.translate("commands.clean.embed.responseAlt", limit, msg.channel.name, this.client.utils.Filter ? this.client.utils.Filter(filter) : "None", msg.author.tag));
         await modlog.send({ embed });
         return null;
     }

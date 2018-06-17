@@ -20,30 +20,29 @@ module.exports = class Steam extends Command {
     }
 
     async run(msg, { user }) {
-        const t = (str) => this.client.translate(str);
         try {
             const { body } = await get(`https://api.alexflipnote.xyz/steam/user/${user}`);
             const embed = new MessageEmbed()
                 .setColor(0x000000)
-                .setAuthor(t("commands.steam.author")[0], t("commands.steam.author")[1], t("commands.steam.author")[2])
+                .setAuthor(this.client.translate("commands.steam.author")[0], this.client.translate("commands.steam.author")[1], this.client.translate("commands.steam.author")[2])
                 .setThumbnail(body.avatars.avatarmedium)
-                .addField(t("commands.steam.username"),
+                .addField(this.client.translate("commands.steam.username"),
                     body.profile.username, true)
-                .addField(t("commands.steam.realname"),
-                    body.profile.realname || t("commands.n/A"), true)
-                .addField(t("commands.steam.timeCreated"),
+                .addField(this.client.translate("commands.steam.realname"),
+                    body.profile.realname || this.client.translate("commands.n/A"), true)
+                .addField(this.client.translate("commands.steam.timeCreated"),
                     body.profile.timecreated, true)
-                .addField(t("commands.steam.summary"),
+                .addField(this.client.translate("commands.steam.summary"),
                     body.profile.summary || "None", true)
-                .addField(t("commands.steam.state"),
+                .addField(this.client.translate("commands.steam.state"),
                     body.profile.state, true)
-                .addField(t("commands.steam.privacy"),
+                .addField(this.client.translate("commands.steam.privacy"),
                     body.profile.privacy, true)
-                .addField(t("commands.steam.location"),
+                .addField(this.client.translate("commands.steam.location"),
                     body.profile.location, true)
-                .addField(t("commands.steam.vacBans"),
+                .addField(this.client.translate("commands.steam.vacBans"),
                     `${body.profile.vacbanned}`, true)
-                .addField(t("commands.steam.customURL"),
+                .addField(this.client.translate("commands.steam.customURL"),
                     body.id.customurl, true);
             return msg.embed(embed);
         } catch (err) {

@@ -28,21 +28,20 @@ module.exports = class Softban extends Command {
     }
 
     async run(msg, { member, reason } ) {
-        const t = (str) => this.client.translate(str);
         const modlog = await msg.guild.channels.get(msg.guild.settings.get("modLog"));
-        if (!msg.guild.me.permissions.has("BAN_MEMBERS")) return msg.say(t("commands.ban.me.noPerms"));
-        if (!modlog) return msg.say(t("commands.noModLog", msg.guild.commandPrefix));
+        if (!msg.guild.me.permissions.has("BAN_MEMBERS")) return msg.say(this.client.translate("commands.ban.me.noPerms"));
+        if (!modlog) return msg.say(this.client.translate("commands.noModLog", msg.guild.commandPrefix));
         try {
             const embed = new MessageEmbed()
                 .setColor(0xFFFF00)
-                .setDescription(t("commands.softban.embed.response", member.user.tag, msg.author.tag, reason));
+                .setDescription(this.client.translate("commands.softban.embed.response", member.user.tag, msg.author.tag, reason));
             await modlog.send({ embed });
             await this.client.modDM(["softban", "softbanned"], msg.guild, member.user, msg.author, reason);
             await member.ban({ days: 0, reason });
             await msg.guild.members.unban(member.id);
-            await msg.say(t("commands.softban.response", member.user.tag, reason));
+            await msg.say(this.client.translate("commands.softban.response", member.user.tag, reason));
         } catch (err) {
-            await msg.say(t("commands.error", err.message));
+            await msg.say(this.client.translate("commands.error", err.message));
         }
     }
 };

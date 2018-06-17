@@ -127,5 +127,5 @@
     "commands.unban.response": "✅ | Successfully unbanned **%s** for **%s**.",
     "commands.blacklist.owner": "❎ | Why would you want to blacklist an bot owner?",
     "commands.blacklist.isBlacklisted": "❎ | That user is already blacklisted.",
-    "commands.blacklist.response": "✅ | **%s** has been blacklisted from using **%s**."
+    "commands.blacklist.response": "**%s** has been blacklisted from using **%s**."
 }

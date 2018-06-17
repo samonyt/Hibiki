@@ -26,13 +26,12 @@ module.exports = class SetRoleCommand extends Command {
     }
 
     async run(msg, { member, role }) {
-        const t = (str) => this.client.translate(str);
         const user = member.user;
 
         const botMember = await msg.guild.members.fetch(msg.client.user);
-        if (!botMember.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return msg.say(t("commands.set-role.noPerms"));
+        if (!botMember.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return msg.say(this.client.translate("commands.set-role.noPerms"));
 
         await member.addRoles([role]);
-        return msg.say(t("commands.set-role.response", role.name, user.tag));
+        return msg.say(this.client.translate("commands.set-role.response", role.name, user.tag));
     }
 };
