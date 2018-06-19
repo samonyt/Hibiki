@@ -1,17 +1,17 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require('discord.js-commando');
 
 module.exports = class LMGTFY extends Command {
     constructor(client) {
         super(client, {
-            name: "lmgtfy",
-            aliases: ["let-me-google-that-for-you"],
-            group: "text",
-            memberName: "lmgtfy",
-            description: "Let me google that for you.",
+            name: 'lmgtfy',
+            aliases: ['let-me-google-that-for-you'],
+            group: 'text',
+            memberName: 'lmgtfy',
+            description: 'Let me google that for you.',
             args: [{
-                key: "text",
-                prompt: "What would you like to google for you?\n",
-                type: "string",
+                key: 'text',
+                prompt: 'What would you like to google for you?\n',
+                type: 'string',
             }]
         });
     }

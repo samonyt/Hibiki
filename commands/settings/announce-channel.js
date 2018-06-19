@@ -1,28 +1,28 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require('discord.js-commando');
 
 module.exports = class AnnounceChannel extends Command {
     constructor(client) {
         super(client, {
-            name: "announce-channel",
-            aliases: ["announcement-channel"],
-            group: "settings",
-            memberName: "announce-channel",
-            description: "Sets an announcement channel for this server.",
+            name: 'announce-channel',
+            aliases: ['announcement-channel'],
+            group: 'settings',
+            memberName: 'announce-channel',
+            description: 'Sets an announcement channel for this server.',
             guildOnly: true,
             args: [{
-                key: "channel",
-                prompt: "What channel do you want to set for announcement(s)?\n",
-                type: "channel"
+                key: 'channel',
+                prompt: 'What channel do you want to set for announcement(s)?\n',
+                type: 'channel'
             }]
         });
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has("MANAGE_SERVER");
+        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
     }
 
     run(msg, { channel }) {
-        msg.guild.settings.set("announceChannel", channel.id);
-        return msg.say(this.client.translate("command.config.response", "announcements channel", `#${channel.name} (${channel.id})`));
+        msg.guild.settings.set('announceChannel', channel.id);
+        return msg.say(this.client.translate('command.config.response', 'announcements channel', `#${channel.name} (${channel.id})`));
     }
 };

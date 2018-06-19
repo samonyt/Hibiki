@@ -1,14 +1,15 @@
 {
   "name": "rin",
-  "version": "10.7.0",
-  "description": "Rin is a modular Discord bot for all your needs.",
+  "version": "13.1.3",
+  "description": "Rin is a modular Discord bot written in JavaScript.",
   "main": "Rin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/Tish/Rin.git"
+    "url": "git+https://github.com/Rin-bot/Rin.git"
   },
   "keywords": [
     "discord-bot",

@@ -1,0 +1,10 @@
+body, .navbar {
+    background: url("../img/background.png") center center;
+    font-family: 'Questrial', sans-serif;
+}
+
+#home-1, #home-2 {
+    color: #FFF;
+    text-align: center;
+    line-height: 70px;
+}

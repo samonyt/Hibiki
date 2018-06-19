@@ -1,7 +1,7 @@
-const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
-const { info } = require("winston");
-const config = require("../config");
+const { MessageEmbed } = require('discord.js');
+const { stripIndents } = require('common-tags');
+const { info } = require('winston');
+const config = require('../config');
 
 module.exports = async (Rin, guild) => {
     const embed = new MessageEmbed()
@@ -9,11 +9,11 @@ module.exports = async (Rin, guild) => {
         .setThumbnail(guild.iconURL())
         .setColor(0x00ff00)
         .setFooter(`Rin is now in ${Rin.guilds.size} servers. | v${Rin.version}`)
-        .addField("Name", guild.name, true)
-        .addField("ID", guild.id, true)
-        .addField("Owner", `\`${guild.owner.user.tag}\` (\`${guild.owner.user.id}\`)`, true)
-        .addField("Member count", guild.memberCount, true)
-        .addField("Created at", `\`${guild.createdAt.toLocaleString()}\``, true);
+        .addField('Name', guild.name, true)
+        .addField('ID', guild.id, true)
+        .addField('Owner', `\`${guild.owner.user.tag}\` (\`${guild.owner.user.id}\`)`, true)
+        .addField('Member count', guild.memberCount, true)
+        .addField('Created at', `\`${guild.createdAt.toLocaleString()}\``, true);
     await Rin.channels.get(config.opts.ids.log).send({ embed });
     await guild.owner.send(stripIndents`
             Thank you for inviting me to \`${guild.name}\`!

@@ -1,5 +1,5 @@
-const { warn } = require("winston");
+const { warn } = require('winston');
 
 module.exports = () => {
-    warn("[RECONNECTING]: Reconnecting..");
+    warn('[RECONNECTING]: Reconnecting..');
 };

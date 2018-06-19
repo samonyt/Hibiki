@@ -1,11 +1,11 @@
-const crypto = require("crypto");
-const scmp = require("scmp");
-const { error } = require("winston");
+const crypto = require('crypto');
+const scmp = require('scmp');
+const { error } = require('winston');
 
-const config = require("../config");
+const config = require('../config');
 
 module.exports = function(opts) {
-    if (typeof (opts) == "string") {
+    if (typeof (opts) == 'string') {
         opts = {
             key: opts,
             hmac: true,
@@ -17,21 +17,21 @@ module.exports = function(opts) {
     const debug = opts.debug;
     const reviver = opts.reviver;
 
-    if (!key || typeof(key) != "string") {
-        error("[ENCRYPTION ERROR]: A string key must be specified.");
+    if (!key || typeof(key) != 'string') {
+        error('[ENCRYPTION ERROR]: A string key must be specified.');
     }
     if (key.length < config.opts.min) {
-        error("[ENCRYPTION ERROR]: The key must be at least " + config.opts.min + " characters long.");
+        error('[ENCRYPTION ERROR]: The key must be at least ' + config.opts.min + ' characters long.');
     }
-    if (reviver !== undefined && reviver !== null && typeof(reviver) != "function") {
-        error("[ENCRYPTION ERROR]: Reviver must be a function.");
+    if (reviver !== undefined && reviver !== null && typeof(reviver) != 'function') {
+        error('[ENCRYPTION ERROR]: Reviver must be a function.');
     }
 
-    const cryptoKey = crypto.createHash("sha256").update(key).digest();
+    const cryptoKey = crypto.createHash('sha256').update(key).digest();
 
     function hmac(text, format) {
-        format = format || "hex";
-        return crypto.createHmac("sha256", cryptoKey).update(text).digest(format);
+        format = format || 'hex';
+        return crypto.createHmac('sha256', cryptoKey).update(text).digest(format);
     }
 
     function encrypt(obj) {
@@ -39,13 +39,13 @@ module.exports = function(opts) {
 
         const iv = crypto.randomBytes(16);
 
-        const cipher = crypto.createCipheriv("aes256", cryptoKey, iv);
-        const encryptedJson = cipher.update(json, "utf8", "base64") + cipher.final("base64");
+        const cipher = crypto.createCipheriv('aes256', cryptoKey, iv);
+        const encryptedJson = cipher.update(json, 'utf8', 'base64') + cipher.final('base64');
 
-        let result = iv.toString("hex") + encryptedJson;
+        let result = iv.toString('hex') + encryptedJson;
 
         if (verifyHmac) {
-            result = hmac(result, "hex") + result;
+            result = hmac(result, 'hex') + result;
         }
 
         return result;
@@ -60,21 +60,21 @@ module.exports = function(opts) {
                 const expectedHmac = cipherText.substring(0, 64);
                 cipherText = cipherText.substring(64);
                 const actualHmac = hmac(cipherText);
-                if(!scmp(Buffer.from(actualHmac, "hex"), Buffer.from(expectedHmac, "hex"))) {
-                    error("[ENCRYPTION ERROR]: HMAC does not match.");
+                if(!scmp(Buffer.from(actualHmac, 'hex'), Buffer.from(expectedHmac, 'hex'))) {
+                    error('[ENCRYPTION ERROR]: HMAC does not match.');
                 }
             }
 
-            const iv = new Buffer.from(cipherText.substring(0,32), "hex");
+            const iv = new Buffer.from(cipherText.substring(0,32), 'hex');
             const encryptedJson = cipherText.substring(32);
 
-            const decipher = crypto.createDecipheriv("aes256", cryptoKey, iv);
-            const json = decipher.update(encryptedJson, "base64", "utf8") + decipher.final("utf8");
+            const decipher = crypto.createDecipheriv('aes256', cryptoKey, iv);
+            const json = decipher.update(encryptedJson, 'base64', 'utf8') + decipher.final('utf8');
 
             return JSON.parse(json, reviver);
         } catch (e) {
             if (debug) {
-                error("[ENCRYPTION ERROR]: Exception in decrypt (ignored): %s.", e);
+                error('[ENCRYPTION ERROR]: Exception in decrypt (ignored): %s.', e);
             }
             return null;
         }

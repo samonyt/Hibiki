@@ -1,15 +1,15 @@
-const { Command } = require("discord.js-commando");
-const { stripIndents } = require("common-tags");
-const { owner } = require("../../config").opts.ids;
+const { Command } = require('discord.js-commando');
+const { stripIndents } = require('common-tags');
+const { owner } = require('../../config').opts.ids;
 
 module.exports = class About extends Command {
     constructor(client) {
         super(client, {
-            name: "about",
-            aliases: ["info", "information", "stats"],
-            group: "info",
-            memberName: "about",
-            description: "Information about Rin.",
+            name: 'about',
+            aliases: ['info', 'information', 'stats'],
+            group: 'info',
+            memberName: 'about',
+            description: 'Information about Rin.',
             guarded: true,
             throttling: {
                 usages: 2,

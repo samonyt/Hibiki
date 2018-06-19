@@ -1,14 +1,14 @@
-const { Command } = require("discord.js-commando");
-const { stripIndents } = require("common-tags");
-const os = require("os");
+const { Command } = require('discord.js-commando');
+const { stripIndents } = require('common-tags');
+const os = require('os');
 
 module.exports = class Debug extends Command {
     constructor(client) {
         super(client, {
-            name: "debug",
-            group: "info",
-            memberName: "debug",
-            description: "Debug information about this bot.",
+            name: 'debug',
+            group: 'info',
+            memberName: 'debug',
+            description: 'Debug information about this bot.',
             guarded: true,
             throttling: {
                 usages: 2,
@@ -41,8 +41,8 @@ module.exports = class Debug extends Command {
         == Versions ==
 
         • Node.js :: ${process.version}
-        • discord.js :: ${require("discord.js/package.json").version}
-        • discord.js-commando :: ${require("discord.js-commando/package.json").version}
+        • discord.js :: ${require('discord.js/package.json').version}
+        • discord.js-commando :: ${require('discord.js-commando/package.json').version}
 
         \`\`\`
         `);

@@ -1,4 +1,4 @@
-const SettingProvider = require("discord.js-commando").SettingProvider;
+const SettingProvider = require('discord.js-commando').SettingProvider;
 
 /**
  * Uses an MongoDB collection to store settings with guilds
@@ -24,7 +24,7 @@ module.exports = class MongoDBProvider extends SettingProvider {
 		 * @type {CommandoClient}
 		 * @readonly
 		 */
-        Object.defineProperty(this, "client", { value: null, writable: true });
+        Object.defineProperty(this, 'client', { value: null, writable: true });
 
         /**
 		 * Settings cached in memory, mapped by guild ID (or 'global')
@@ -45,38 +45,38 @@ module.exports = class MongoDBProvider extends SettingProvider {
         this.client = client;
 
         // Load or create the settings collection
-        const collection = await this.db.collection("settings");
+        const collection = await this.db.collection('settings');
 
         // Load all settings
         collection.find().forEach(doc => {
-            const guild = doc.guild !== 0 ? doc.guild : "global";
+            const guild = doc.guild !== 0 ? doc.guild : 'global';
             this.settings.set(guild, doc.settings);
 
             // Guild is not global, and doesn't exist currently so lets skip it.
-            if (guild !== "global" && !client.guilds.has(doc.guild)) return;
+            if (guild !== 'global' && !client.guilds.has(doc.guild)) return;
 
             this.setupGuild(guild, doc.settings);
         });
 
         // Listen for changes
         this.listeners
-            .set("commandPrefixChange", (guild, prefix) => this.set(guild, "prefix", prefix))
-            .set("commandStatusChange", (guild, command, enabled) => this.set(guild, `cmd-${command.name}`, enabled))
-            .set("groupStatusChange", (guild, group, enabled) => this.set(guild, `grp-${group.id}`, enabled))
-            .set("guildCreate", guild => {
+            .set('commandPrefixChange', (guild, prefix) => this.set(guild, 'prefix', prefix))
+            .set('commandStatusChange', (guild, command, enabled) => this.set(guild, `cmd-${command.name}`, enabled))
+            .set('groupStatusChange', (guild, group, enabled) => this.set(guild, `grp-${group.id}`, enabled))
+            .set('guildCreate', guild => {
                 const settings = this.settings.get(guild.id);
                 if (!settings) return;
                 this.setupGuild(guild.id, settings);
             })
-            .set("commandRegister", command => {
+            .set('commandRegister', command => {
                 for (const [guild, settings] of this.settings) {
-                    if (guild !== "global" && !client.guilds.has(guild)) continue;
+                    if (guild !== 'global' && !client.guilds.has(guild)) continue;
                     this.setupGuildCommand(client.guilds.get(guild), command, settings);
                 }
             })
-            .set("groupRegister", group => {
+            .set('groupRegister', group => {
                 for (const [guild, settings] of this.settings) {
-                    if (guild !== "global" && !client.guilds.has(guild)) continue;
+                    if (guild !== 'global' && !client.guilds.has(guild)) continue;
                     this.setupGuildGroup(client.guilds.get(guild), group, settings);
                 }
             });
@@ -94,7 +94,7 @@ module.exports = class MongoDBProvider extends SettingProvider {
 
     get(guild, key, defVal) {
         const settings = this.settings.get(this.constructor.getGuildID(guild));
-        return settings ? typeof settings[key] !== "undefined" ? settings[key] : defVal : defVal;
+        return settings ? typeof settings[key] !== 'undefined' ? settings[key] : defVal : defVal;
     }
 
     async set(guild, key, val) {
@@ -109,21 +109,21 @@ module.exports = class MongoDBProvider extends SettingProvider {
 
         await this.updateGuild(guild, settings);
 
-        if (guild === "global") this.updateOtherShards(key, val);
+        if (guild === 'global') this.updateOtherShards(key, val);
         return val;
     }
 
     async remove(guild, key) {
         guild = this.constructor.getGuildID(guild);
         const settings = this.settings.get(guild);
-        if (!settings || typeof settings[key] === "undefined") return;
+        if (!settings || typeof settings[key] === 'undefined') return;
 
         const val = settings[key];
         delete settings[key]; // NOTE: I know this isn't efficient, but it does the job.
 
         await this.updateGuild(guild, settings);
 
-        if (guild === "global") this.updateOtherShards(key, undefined);
+        if (guild === 'global') this.updateOtherShards(key, undefined);
         return val;
     }
 
@@ -132,14 +132,14 @@ module.exports = class MongoDBProvider extends SettingProvider {
         if (!this.settings.has(guild)) return;
         this.settings.delete(guild);
 
-        const collection = await this.db.collection("settings");
-        return collection.deleteOne({ guild: guild !== "global" ? guild : 0 });
+        const collection = await this.db.collection('settings');
+        return collection.deleteOne({ guild: guild !== 'global' ? guild : 0 });
     }
 
     async updateGuild(guild, settings) {
-        guild = guild !== "global" ? guild : 0;
+        guild = guild !== 'global' ? guild : 0;
 
-        const collection = await this.db.collection("settings");
+        const collection = await this.db.collection('settings');
         return collection.updateOne({ guild }, { $set: { guild, settings } }, { upsert: true });
     }
 
@@ -150,11 +150,11 @@ module.exports = class MongoDBProvider extends SettingProvider {
 	 * @private
 	 */
     setupGuild(guild, settings) {
-        if (typeof guild !== "string") throw new TypeError("The guild must be a guild ID or \"global\".");
+        if (typeof guild !== 'string') throw new TypeError('The guild must be a guild ID or "global".');
         guild = this.client.guilds.get(guild) || null;
 
         // Load the command prefix
-        if (typeof settings.prefix !== "undefined") {
+        if (typeof settings.prefix !== 'undefined') {
             if (guild) guild._commandPrefix = settings.prefix;
             else this.client._commandPrefix = settings.prefix;
         }
@@ -172,7 +172,7 @@ module.exports = class MongoDBProvider extends SettingProvider {
 	 * @private
 	 */
     setupGuildCommand(guild, command, settings) {
-        if (typeof settings[`cmd-${command.name}`] === "undefined") return;
+        if (typeof settings[`cmd-${command.name}`] === 'undefined') return;
         if (guild) {
             if (!guild._commandsEnabled) guild._commandsEnabled = {};
             guild._commandsEnabled[command.name] = settings[`cmd-${command.name}`];
@@ -189,7 +189,7 @@ module.exports = class MongoDBProvider extends SettingProvider {
 	 * @private
 	 */
     setupGuildGroup(guild, group, settings) {
-        if (typeof settings[`grp-${group.id}`] === "undefined") return;
+        if (typeof settings[`grp-${group.id}`] === 'undefined') return;
         if (guild) {
             if (!guild._groupsEnabled) guild._groupsEnabled = {};
             guild._groupsEnabled[group.id] = settings[`grp-${group.id}`];
@@ -207,7 +207,7 @@ module.exports = class MongoDBProvider extends SettingProvider {
     updateOtherShards(key, val) {
         if (!this.client.shard) return;
         key = JSON.stringify(key);
-        val = typeof val !== "undefined" ? JSON.stringify(val) : "undefined";
+        val = typeof val !== 'undefined' ? JSON.stringify(val) : 'undefined';
         this.client.shard.broadcastEval(`
 			if(this.shard.id !== ${this.client.shard.id} && this.provider && this.provider.settings) {
 				let global = this.provider.settings.get('global');

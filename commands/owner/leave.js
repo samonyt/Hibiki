@@ -1,20 +1,20 @@
-const { Command } = require("discord.js-commando");
-const winston = require("winston");
+const { Command } = require('discord.js-commando');
+const winston = require('winston');
 
 module.exports = class Leave extends Command {
     constructor(client) {
         super(client, {
-            name: "leave",
-            aliases: ["bye"],
-            group: "owner",
-            memberName: "leave",
-            description: "Leaves a guild using the guild ID.",
-            details: "Only the bot owner can use this command.",
-            examples: ["leave 443432089212289034"],
+            name: 'leave',
+            aliases: ['bye'],
+            group: 'owner',
+            memberName: 'leave',
+            description: 'Leaves a guild using the guild ID.',
+            details: 'Only the bot owner can use this command.',
+            examples: ['leave 443432089212289034'],
             args: [{
-                key: "id",
-                prompt: "Which guild would you like to leave?\n",
-                type: "string"
+                key: 'id',
+                prompt: 'Which guild would you like to leave?\n',
+                type: 'string'
             }]
         });
     }

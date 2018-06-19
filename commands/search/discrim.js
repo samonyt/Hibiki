@@ -1,13 +1,13 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require('discord.js-commando');
 
 module.exports = class Discrim extends Command {
     constructor(client) {
         super(client, {
-            name: "discrim",
-            aliases: ["discriminator"],
-            group: "info",
-            memberName: "discrim",
-            description: "Find the usernames of a certain discriminator.",
+            name: 'discrim',
+            aliases: ['discriminator'],
+            group: 'info',
+            memberName: 'discrim',
+            description: 'Find the usernames of a certain discriminator.',
             guildOnly: true,
             throttling: {
                 usages: 2,
@@ -15,17 +15,17 @@ module.exports = class Discrim extends Command {
             },
 
             args: [{
-                key: "discrim",
-                prompt: "What discrminator would you like to search?\n",
-                type: "string"
+                key: 'discrim',
+                prompt: 'What discrminator would you like to search?\n',
+                type: 'string'
             }]
         });
     }
 
     async run(msg, { discrim }) {
         fetch(msg.client, discrim).then(results => {
-            if(!results) return msg.say(this.client.translate("commands.discrim.none", discrim));
-            msg.say(this.client.translate("commands.discrim.response", results.length, discrim, results.join(", ")));
+            if(!results) return msg.say(this.client.translate('commands.discrim.none', discrim));
+            msg.say(this.client.translate('commands.discrim.response', results.length, discrim, results.join(', ')));
         });
     }
 };

@@ -1,31 +1,31 @@
-const { Command } = require("discord.js-commando");
-const { get } = require("snekfetch");
-const { oneLineTrim } = require("common-tags");
+const { Command } = require('discord.js-commando');
+const { get } = require('snekfetch');
+const { oneLineTrim } = require('common-tags');
 
 module.exports = class DocsCommand extends Command {
     constructor(client) {
         super(client, {
-            name: "docs",
-            group: "search",
-            memberName: "docs",
-            description: "Searches discord.js documentation.",
+            name: 'docs',
+            group: 'search',
+            memberName: 'docs',
+            description: 'Searches discord.js documentation.',
             throttling: {
                 usages: 2,
                 duration: 3
             },
             args: [
                 {
-                    key: "query",
-                    prompt: "what would you like to find?\n",
-                    type: "string"
+                    key: 'query',
+                    prompt: 'what would you like to find?\n',
+                    type: 'string'
                 },
                 {
-                    key: "version",
-                    prompt: "which version of docs would you like (stable, master, commando)?",
-                    type: "string",
+                    key: 'version',
+                    prompt: 'which version of docs would you like (stable, master, commando)?',
+                    type: 'string',
                     parse: value => value.toLowerCase(),
-                    validate: value => ["master", "stable", "commando"].includes(value),
-                    default: "stable"
+                    validate: value => ['master', 'stable', 'commando'].includes(value),
+                    default: 'stable'
                 }
             ]
         });
@@ -37,8 +37,8 @@ module.exports = class DocsCommand extends Command {
     async fetchDocs(version) {
         if (this.docs[version]) return this.docs[version];
 
-        const link = version === "commando"
-            ? "https://raw.githubusercontent.com/Gawdl3y/discord.js-commando/docs/master.json"
+        const link = version === 'commando'
+            ? 'https://raw.githubusercontent.com/Gawdl3y/discord.js-commando/docs/master.json'
             : `https://raw.githubusercontent.com/hydrabolt/discord.js/docs/${version}.json`;
 
         const { text } = await get(link);
@@ -67,7 +67,7 @@ module.exports = class DocsCommand extends Command {
             return found;
         };
 
-        const main = findWithin(docs, ["classes", "interfaces", "typedefs"], mainQuery);
+        const main = findWithin(docs, ['classes', 'interfaces', 'typedefs'], mainQuery);
         if (!main) return [];
 
         const res = [main];
@@ -75,10 +75,10 @@ module.exports = class DocsCommand extends Command {
 
         let props;
         if (/\(.*?\)$/.test(memberQuery)) {
-            memberQuery = memberQuery.replace(/\(.*?\)$/, "");
-            props = ["methods"];
+            memberQuery = memberQuery.replace(/\(.*?\)$/, '');
+            props = ['methods'];
         } else {
-            props = main.category === "typedefs" ? ["props"] : ["props", "methods", "events"];
+            props = main.category === 'typedefs' ? ['props'] : ['props', 'methods', 'events'];
         }
 
         const member = findWithin(main.item, props, memberQuery);
@@ -88,11 +88,11 @@ module.exports = class DocsCommand extends Command {
         if (rest.length) {
             if (!member.item.type) return [];
             const base = this.joinType(member.item.type)
-                .replace(/<.+>/g, "")
-                .replace(/\|.+/, "")
+                .replace(/<.+>/g, '')
+                .replace(/\|.+/, '')
                 .trim();
 
-            return this.search(docs, `${base}.${rest.join(".")}`);
+            return this.search(docs, `${base}.${rest.join('.')}`);
         }
 
         res.push(member);
@@ -100,26 +100,26 @@ module.exports = class DocsCommand extends Command {
     }
 
     clean(text) {
-        return text.replace(/\n/g, " ")
-            .replace(/<\/?(?:info|warn)>/g, "")
-            .replace(/\{@link (.+?)\}/g, "`$1`");
+        return text.replace(/\n/g, ' ')
+            .replace(/<\/?(?:info|warn)>/g, '')
+            .replace(/\{@link (.+?)\}/g, '`$1`');
     }
 
     joinType(type) {
-        return type.map(t => t.map(a => Array.isArray(a) ? a.join("") : a).join("")).join(" | ");
+        return type.map(t => t.map(a => Array.isArray(a) ? a.join('') : a).join('')).join(' | ');
     }
 
     getLink(version) {
-        return version === "commando"
-            ? "https://discord.js.org/#/docs/commando/master/"
+        return version === 'commando'
+            ? 'https://discord.js.org/#/docs/commando/master/'
             : `https://discord.js.org/#/docs/main/${version}/`;
     }
 
     makeLink(main, member, version) {
         return oneLineTrim`
 			${this.getLink(version)}
-			${main.category === "classes" ? "class" : "typedef"}/${main.item.name}
-			?scrollTo=${member.item.scope === "static" ? "s-" : ""}${member.item.name}
+			${main.category === 'classes' ? 'class' : 'typedef'}/${main.item.name}
+			?scrollTo=${member.item.scope === 'static' ? 's-' : ''}${member.item.name}
 		`;
     }
 
@@ -133,31 +133,31 @@ module.exports = class DocsCommand extends Command {
 
         embed.description += oneLineTrim`
 			](${this.getLink(version)}
-			${main.category === "classes" ? "class" : "typedef"}/${main.item.name})**__
+			${main.category === 'classes' ? 'class' : 'typedef'}/${main.item.name})**__
 		`;
 
-        embed.description += "\n";
+        embed.description += '\n';
         if (main.item.description) embed.description += `\n${this.clean(main.item.description)}`;
 
-        const join = it => `\`${it.map(i => i.name).join("` `")}\``;
+        const join = it => `\`${it.map(i => i.name).join('` `')}\``;
 
         if (main.item.props) {
             embed.fields.push({
-                name: "Properties",
+                name: 'Properties',
                 value: join(main.item.props)
             });
         }
 
         if (main.item.methods) {
             embed.fields.push({
-                name: "Methods",
+                name: 'Methods',
                 value: join(main.item.methods)
             });
         }
 
         if (main.item.events) {
             embed.fields.push({
-                name: "Events",
+                name: 'Events',
                 value: join(main.item.events)
             });
         }
@@ -168,25 +168,25 @@ module.exports = class DocsCommand extends Command {
     formatProp(main, member, version) {
         const embed = {
             description: oneLineTrim`
-				__**[${main.item.name}${member.item.scope === "static" ? "." : "#"}${member.item.name}]
+				__**[${main.item.name}${member.item.scope === 'static' ? '.' : '#'}${member.item.name}]
 				(${this.makeLink(main, member, version)})**__
 			`,
             fields: []
         };
 
-        embed.description += "\n";
+        embed.description += '\n';
         if (member.item.description) embed.description += `\n${this.clean(member.item.description)}`;
 
         const type = this.joinType(member.item.type);
         embed.fields.push({
-            name: "Type",
+            name: 'Type',
             value: `\`${type}\``
         });
 
         if (member.item.examples) {
             embed.fields.push({
-                name: "Example",
-                value: `\`\`\`js\n${member.item.examples.join("```\n```js\n")}\`\`\``
+                name: 'Example',
+                value: `\`\`\`js\n${member.item.examples.join('```\n```js\n')}\`\`\``
             });
         }
 
@@ -196,13 +196,13 @@ module.exports = class DocsCommand extends Command {
     formatMethod(main, member, version) {
         const embed = {
             description: oneLineTrim`
-				__**[${main.item.name}${member.item.scope === "static" ? "." : "#"}${member.item.name}()]
+				__**[${main.item.name}${member.item.scope === 'static' ? '.' : '#'}${member.item.name}()]
 				(${this.makeLink(main, member, version)})**__
 			`,
             fields: []
         };
 
-        embed.description += "\n";
+        embed.description += '\n';
         if (member.item.description) embed.description += `\n${this.clean(member.item.description)}`;
 
         if (member.item.params) {
@@ -213,30 +213,30 @@ module.exports = class DocsCommand extends Command {
             });
 
             embed.fields.push({
-                name: "Parameters",
-                value: params.join("\n\n")
+                name: 'Parameters',
+                value: params.join('\n\n')
             });
         }
 
         if (member.item.returns) {
-            const desc = member.item.returns.description ? `${this.clean(member.item.returns.description)}\n` : "";
+            const desc = member.item.returns.description ? `${this.clean(member.item.returns.description)}\n` : '';
             const type = this.joinType(member.item.returns.types || member.item.returns);
             const returns = `${desc}\`=> ${type}\``;
             embed.fields.push({
-                name: "Returns",
+                name: 'Returns',
                 value: returns
             });
         } else {
             embed.fields.push({
-                name: "Returns",
-                value: "`=> void`"
+                name: 'Returns',
+                value: '`=> void`'
             });
         }
 
         if (member.item.examples) {
             embed.fields.push({
-                name: "Example",
-                value: `\`\`\`js\n${member.item.examples.join("```\n```js\n")}\`\`\``
+                name: 'Example',
+                value: `\`\`\`js\n${member.item.examples.join('```\n```js\n')}\`\`\``
             });
         }
 
@@ -258,15 +258,15 @@ module.exports = class DocsCommand extends Command {
             });
 
             embed.fields.push({
-                name: "Parameters",
-                value: params.join("\n\n")
+                name: 'Parameters',
+                value: params.join('\n\n')
             });
         }
 
         if (member.item.examples) {
             embed.fields.push({
-                name: "Example",
-                value: `\`\`\`js\n${member.item.examples.join("```\n```js\n")}\`\`\``
+                name: 'Example',
+                value: `\`\`\`js\n${member.item.examples.join('```\n```js\n')}\`\`\``
             });
         }
 
@@ -278,7 +278,7 @@ module.exports = class DocsCommand extends Command {
         const [main, member] = this.search(docs, query);
 
         if (!main) {
-            return msg.say("Could not find that item in the docs.");
+            return msg.say('Could not find that item in the docs.');
         }
 
         const embed = member ? {
@@ -287,10 +287,10 @@ module.exports = class DocsCommand extends Command {
             events: this.formatEvent
         }[member.category].call(this, main, member, version) : this.formatMain(main, version);
 
-        const icon = "https://cdn.discordapp.com/icons/222078108977594368/bc226f09db83b9176c64d923ff37010b.webp";
+        const icon = 'https://cdn.discordapp.com/icons/222078108977594368/bc226f09db83b9176c64d923ff37010b.webp';
         embed.url = this.getLink(version);
         embed.author = {
-            name: version === "commando" ? "Commando Docs" : `Discord.js Docs (${version})`,
+            name: version === 'commando' ? 'Commando Docs' : `Discord.js Docs (${version})`,
             icon_url: icon // eslint-disable-line camelcase
         };
 

@@ -1,11 +1,11 @@
 module.exports = (Rin, member) => {
-    const role = member.guild.roles.get(member.guild.settings.get("autoRole"));
-    if (role && member.guild.me.hasPermission("MANAGE_ROLES")) {
+    const role = member.guild.roles.get(member.guild.settings.get('autoRole'));
+    if (role && member.guild.me.hasPermission('MANAGE_ROLES')) {
         member.roles.add(role).catch(() => null);
     }
-    const channel = member.guild.channels.get(member.guild.settings.get("welcomeLog"));
-    if (!channel || !channel.permissionsFor(Rin.user).has("SEND_MESSAGES")) return;
-    const msg = member.guild.settings.get("welcomeMsg", "Welcome, <user>~")
+    const channel = member.guild.channels.get(member.guild.settings.get('welcomeLog'));
+    if (!channel || !channel.permissionsFor(Rin.user).has('SEND_MESSAGES')) return;
+    const msg = member.guild.settings.get('welcomeMsg', 'Welcome, <user>~')
         .replace(/(<user>)/gi, member.user.username)
         .replace(/(<server>)/gi, member.guild.name)
         .replace(/(<mention>)/gi, member);

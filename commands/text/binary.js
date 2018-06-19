@@ -1,20 +1,20 @@
-const { Command } = require("discord.js-commando");
+const { Command } = require('discord.js-commando');
 
 module.exports = class Binary extends Command {
     constructor(client) {
         super(client, {
-            name: "binary",
-            aliases: ["binary-code"],
-            group: "text",
-            memberName: "binary",
-            description: "Converts text to binary code.",
+            name: 'binary',
+            aliases: ['binary-code'],
+            group: 'text',
+            memberName: 'binary',
+            description: 'Converts text to binary code.',
             args: [{
-                key: "text",
-                prompt: "What text would you like to convert to binary code?\n",
-                type: "string",
+                key: 'text',
+                prompt: 'What text would you like to convert to binary code?\n',
+                type: 'string',
                 validate: text => {
                     if (this.binary(text).length < 2000) return true;
-                    return "Your text is too long.\n";
+                    return 'Your text is too long.\n';
                 }
             }]
         });
@@ -25,9 +25,9 @@ module.exports = class Binary extends Command {
     }
 
     binary(text) {
-        return text.split("").map(str => {
+        return text.split('').map(str => {
             const converted = str.charCodeAt(0).toString(2);
-            return `${"00000000".slice(converted.length)}${converted}`;
-        }).join("");
+            return `${'00000000'.slice(converted.length)}${converted}`;
+        }).join('');
     }
 };

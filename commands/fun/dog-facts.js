@@ -1,14 +1,14 @@
-const { Command } = require("discord.js-commando");
-const facts = require("../../assets/json/dogfacts");
+const { Command } = require('discord.js-commando');
+const facts = require('../../assets/json/dogfacts');
 
 module.exports = class DogFacts extends Command {
     constructor(client) {
         super(client, {
-            name: "dog-facts",
-            aliases: ["dog-fact", "puppy-fact"],
-            group: "fun",
-            memberName: "dog-facts",
-            description: "Responds with a random dog fact."
+            name: 'dog-facts',
+            aliases: ['dog-fact', 'puppy-fact'],
+            group: 'fun',
+            memberName: 'dog-facts',
+            description: 'Responds with a random dog fact.'
         });
     }
 

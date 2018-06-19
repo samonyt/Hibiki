@@ -1,21 +1,21 @@
-const { Command } = require("discord.js-commando");
-const { exec } = require("child_process");
-const { stripIndents } = require("common-tags");
+const { Command } = require('discord.js-commando');
+const { exec } = require('child_process');
+const { stripIndents } = require('common-tags');
 
 module.exports = class Exec extends Command {
     constructor(client) {
         super(client, {
-            name: "exec",
-            aliases: ["execute"],
-            group: "owner",
-            memberName: "exec",
-            description: "Executes a command in shell.",
-            details: "Only the bot owner can use this command.",
-            examples: ["exec <shell command>"],
+            name: 'exec',
+            aliases: ['execute'],
+            group: 'owner',
+            memberName: 'exec',
+            description: 'Executes a command in shell.',
+            details: 'Only the bot owner can use this command.',
+            examples: ['exec <shell command>'],
             args: [{
-                key: "code",
-                prompt: "What would you like to execute?\n",
-                type: "string"
+                key: 'code',
+                prompt: 'What would you like to execute?\n',
+                type: 'string'
             }]
         });
     }

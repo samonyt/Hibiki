@@ -1,20 +1,20 @@
-const { Command } = require("discord.js-commando");
-const { MessageEmbed } = require("discord.js");
-const { get } = require("snekfetch");
+const { Command } = require('discord.js-commando');
+const { MessageEmbed } = require('discord.js');
+const { get } = require('snekfetch');
 
 module.exports = class Steam extends Command {
     constructor(client) {
         super(client, {
-            name: "steam",
-            aliases: ["steam-user"],
-            group: "info",
-            memberName: "steam",
-            description: "Searches user on Steam and returns information",
-            examples: ["steam <user steam id here>"],
+            name: 'steam',
+            aliases: ['steam-user'],
+            group: 'info',
+            memberName: 'steam',
+            description: 'Searches user on Steam and returns information',
+            examples: ['steam <user steam id here>'],
             args: [{
-                key: "user",
-                prompt: "What is the user's Steam user ID?\n",
-                type: "string"
+                key: 'user',
+                prompt: 'What is the user\'s Steam user ID?\n',
+                type: 'string'
             }]
         });
     }
@@ -24,29 +24,29 @@ module.exports = class Steam extends Command {
             const { body } = await get(`https://api.alexflipnote.xyz/steam/user/${user}`);
             const embed = new MessageEmbed()
                 .setColor(0x000000)
-                .setAuthor(this.client.translate("commands.steam.author")[0], this.client.translate("commands.steam.author")[1], this.client.translate("commands.steam.author")[2])
+                .setAuthor(this.client.translate('commands.steam.author')[0], this.client.translate('commands.steam.author')[1], this.client.translate('commands.steam.author')[2])
                 .setThumbnail(body.avatars.avatarmedium)
-                .addField(this.client.translate("commands.steam.username"),
+                .addField(this.client.translate('commands.steam.username'),
                     body.profile.username, true)
-                .addField(this.client.translate("commands.steam.realname"),
-                    body.profile.realname || this.client.translate("commands.n/A"), true)
-                .addField(this.client.translate("commands.steam.timeCreated"),
+                .addField(this.client.translate('commands.steam.realname'),
+                    body.profile.realname || this.client.translate('commands.n/A'), true)
+                .addField(this.client.translate('commands.steam.timeCreated'),
                     body.profile.timecreated, true)
-                .addField(this.client.translate("commands.steam.summary"),
-                    body.profile.summary || "None", true)
-                .addField(this.client.translate("commands.steam.state"),
+                .addField(this.client.translate('commands.steam.summary'),
+                    body.profile.summary || 'None', true)
+                .addField(this.client.translate('commands.steam.state'),
                     body.profile.state, true)
-                .addField(this.client.translate("commands.steam.privacy"),
+                .addField(this.client.translate('commands.steam.privacy'),
                     body.profile.privacy, true)
-                .addField(this.client.translate("commands.steam.location"),
+                .addField(this.client.translate('commands.steam.location'),
                     body.profile.location, true)
-                .addField(this.client.translate("commands.steam.vacBans"),
+                .addField(this.client.translate('commands.steam.vacBans'),
                     `${body.profile.vacbanned}`, true)
-                .addField(this.client.translate("commands.steam.customURL"),
+                .addField(this.client.translate('commands.steam.customURL'),
                     body.id.customurl, true);
             return msg.embed(embed);
         } catch (err) {
-            return msg.say(this.client.translate("commands.error"), err.message);
+            return msg.say(this.client.translate('commands.error'), err.message);
         }
     }
 };

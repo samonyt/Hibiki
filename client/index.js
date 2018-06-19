@@ -1,22 +1,22 @@
-const { CommandoClient } = require("discord.js-commando");
-const { MessageEmbed, WebhookClient } = require("discord.js");
-const { readdir, readdirSync } = require("fs");
-const { stripIndents } = require("common-tags");
-const { version } = require("../package");
-const { join } = require("path");
-const { error, info } = require("winston");
+const { CommandoClient } = require('discord.js-commando');
+const { MessageEmbed, WebhookClient } = require('discord.js');
+const { readdir, readdirSync } = require('fs');
+const { stripIndents } = require('common-tags');
+const { version } = require('../package');
+const { join } = require('path');
+const { error, info } = require('winston');
 
-const ws = require("../web/app");
+const ws = require('../web/app');
 
-const i18n = require("i18n");
-const utils = readdirSync("./utils/");
-const config = require("../config");
+const i18n = require('i18n');
+const utils = readdirSync('./utils/');
+const config = require('../config');
 
 i18n.configure({
     autoReload: true,
-    cookie: "locale",
-    defaultLocale: "en-gb",
-    directory: join(__dirname, "..", "locales"),
+    cookie: 'locale',
+    defaultLocale: 'en-gb',
+    directory: join(__dirname, '..', 'locales'),
     updateFiles: false,
 });
 
@@ -32,20 +32,20 @@ module.exports = class RinClient extends CommandoClient {
         this.translate = this.locale.__;
                 
         if (config.opts.shutdown === true) {
-            error("[CONFIG]: Shutdown at start set to yes, halting instance.");
+            error('[CONFIG]: Shutdown at start set to yes, halting instance.');
             process.exit(0);
         }
 
         this.utils = {};
 
         for (const util of utils) {
-            const uN = util.split(".")[0];
+            const uN = util.split('.')[0];
             this.utils[uN] = require(`../utils/${uN}`);
         }
 
         this.encryptor = this.utils.Encryption(config.keys.encrypt);
 
-        process.on("unhandledRejection", err => {
+        process.on('unhandledRejection', err => {
             error(`[ERROR]: Unhandled Promise rejection:\n${err.stack}`);
         });
     }
@@ -60,42 +60,43 @@ module.exports = class RinClient extends CommandoClient {
         const embed = new MessageEmbed()
             .setColor(color)
             .setTitle(`You were ${actionPT} from ${guild}.`)
-            .addField("Issuer", issuer, true)
-            .addField("Reason", reason, true);
+            .addField('Issuer', issuer, true)
+            .addField('Reason', reason, true);
         return user.send({ embed });
     }
     async dm (user, content) {
         return user.send(content);
     }
     async bind () {
-        await info("[INHIBITOR]: Initializing inhibitor..");
+        await info('[INHIBITOR]: Initializing inhibitor..');
         await this.dispatcher.addInhibitor(msg => {
-            const blacklist = this.provider.get("global", "blacklistUsers", []);
+            const blacklist = this.provider.get('global', 'blacklistUsers', []);
 
             if (!blacklist.includes(msg.author.id)) return false;
             return msg.say(stripIndents`
             ❎ | Sorry, it seems that you're blacklisted from using ${this.user.tag}. Contact ${this.options.owner.user.tag} for more details.
             `);
         });
-        await info("[INHIBITOR]: Initialized!");
-        await info("[COMMAND HANDLER]: Initializing command handler..");
+        await info('[INHIBITOR]: Initialized!');
+        await info('[COMMAND HANDLER]: Initializing command handler..');
         await this.registry
             .registerDefaultTypes()
-            .registerTypesIn(join(__dirname, "..", "types"))
+            .registerTypesIn(join(__dirname, '..', 'types'))
             .registerGroups([
-                ["analyze", "Analyzation"],
-                ["fun", "Fun"],
-                ["games", "Games"],
-                ["image", "Image editing"],
-                ["info", "Information"],
-                ["mod", "Moderation"],
-                ["owner", "Owner-only"],
-                ["roleplay", "Roleplay"],
-                ["search", "Search"],
-                ["settings", "Settings"],
-                ["tags", "Tagging"],
-                ["text", "Text editing"],
-                ["util", "Utility"]
+                ['analyze', 'Analyzation'],
+                ['fun', 'Fun'],
+                ['games', 'Games'],
+                ['image', 'Images'],
+                ['image-edit', 'Image editing'],
+                ['info', 'Information'],
+                ['mod', 'Moderation'],
+                ['owner', 'Owner-only'],
+                ['roleplay', 'Roleplay'],
+                ['search', 'Search'],
+                ['settings', 'Settings'],
+                ['tags', 'Tagging'],
+                ['text', 'Text editing'],
+                ['util', 'Utility']
             ])
             .registerDefaultCommands({
                 help: false,
@@ -104,23 +105,23 @@ module.exports = class RinClient extends CommandoClient {
                 prefix: false,
                 commandState: false
             })
-            .registerCommandsIn(join(__dirname, "..", "commands"));
-        await info("[COMMAND HANDLER]: Initialized!");
+            .registerCommandsIn(join(__dirname, '..', 'commands'));
+        await info('[COMMAND HANDLER]: Initialized!');
         
-        await info("[EVENT HANDLER]: Initializing event handler..");
-        readdir("./events/", (err, files) => {
+        await info('[EVENT HANDLER]: Initializing event handler..');
+        readdir('./events/', (err, files) => {
             if (err) return error(err);
             files.forEach(file => {
                 const event = require(`../events/${file}`);
-                let eventName = file.split(".")[0];
+                let eventName = file.split('.')[0];
                 this.on(eventName, event.bind(null, this));
                 delete require.cache[require.resolve(`../events/${file}`)];
             });
         });
-        await info("[EVENT HANDLER]: Initialized!");
-        await info("[WEBSERVER]: Initializing webserver..");
+        await info('[EVENT HANDLER]: Initialized!');
+        await info('[WEBSERVER]: Initializing webserver..');
         await ws(this);
-        await info("[DISCORD]: Connecting to Discord..");
+        await info('[DISCORD]: Connecting to Discord..');
         this.login(config.keys.token);
     }
 };

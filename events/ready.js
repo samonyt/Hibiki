@@ -1,5 +1,5 @@
-const { info } = require("winston");
-const config = require("../config");
+const { info } = require('winston');
+const config = require('../config');
 
 module.exports = async (client) => {
     await info(`[DISCORD]: ${client.user.tag} v${client.version} is ready.`);

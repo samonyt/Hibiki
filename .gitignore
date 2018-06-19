@@ -1,8 +1,9 @@
 # PM2 Logs
 logs
 
-# Visual Studio Code
+# IDE shit
 .vscode
+.idea
 
 # NPM
 node_modules

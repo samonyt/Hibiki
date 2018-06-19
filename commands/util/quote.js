@@ -1,19 +1,19 @@
-const { Command } = require("discord.js-commando");
-const { MessageEmbed } = require("discord.js");
+const { Command } = require('discord.js-commando');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Quote extends Command {
     constructor(client) {
         super(client, {
-            name: "quote",
-            group: "util",
-            memberName: "quote",
-            description: "Quotes a message ID.",
+            name: 'quote',
+            group: 'util',
+            memberName: 'quote',
+            description: 'Quotes a message ID.',
             guildOnly: true,
-            examples: ["quote <message id here>"],
+            examples: ['quote <message id here>'],
             args: [{
-                key: "quote",
-                prompt: "Which message ID do you want to quote?\n",
-                type: "message"
+                key: 'quote',
+                prompt: 'Which message ID do you want to quote?\n',
+                type: 'message'
             }]
         });
     }

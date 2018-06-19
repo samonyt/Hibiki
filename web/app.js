@@ -57,14 +57,8 @@ module.exports = (client) => {
         .use("/static/:type", (req, res, next) => {
             express.static(`${__dirname}/public/${req.params.type}`, { maxAge: 86400000 })(req, res, next);
         })
-        .use("/static/MDB/:type", (req, res, next) => {
-            express.static(`${__dirname}/public/MDB/${req.params.type}`, { maxAge: 86400000 })(req, res, next);
-        })
         .get("/", (req, res) => {
             res.render("index", { client });
-        })
-        .get("/index2", (req, res) => {
-            res.render("index2");
         })
         .get("/api", async (req, res) => {
             res.json({
