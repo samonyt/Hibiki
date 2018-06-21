@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "10"
+cache:
+  directories:
+    - "$HOME/.npm"
+install: npm ci
+jobs:
+  include:
+    - stage: test
+      script: bash ./travis/test.sh
+dist: trusty
+sudo: true
