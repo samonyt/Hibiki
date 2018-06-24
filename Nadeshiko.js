@@ -15,7 +15,7 @@ const Nadeshiko = new Client({
     disableEveryone: true
 });
 
-init.then(() => Nadeshiko.start());
+init();
 
 Nadeshiko
     .on('message', (msg) => {
@@ -80,6 +80,7 @@ async function init() {
         await info('[DATABASE]: Initializing MongoDB..');
         await Nadeshiko.setProvider(MongoClient.connect(config.dbURL).then(client => new Provider(client.db(config.dbName)))).catch(error);
         await info('[DATABASE]: Initialized!');
+        await Nadeshiko.start();
     } catch (err) { 
         await error(`[DATABASE]: Error connecting:\n ${err.stack}`);
     }
