@@ -1,6 +1,6 @@
 {
   "name": "nadeshiko",
-  "version": "20.0-beta",
+  "version": "20.0.7",
   "description": "Nadeshiko is anime-based modular Discord bot for your needs.",
   "main": "Nadeshiko.js",
   "scripts": {
