@@ -91,5 +91,5 @@ module.exports = (client) => {
         return res.redirect('/login/');
     }
 
-    app.listen(client.config.opts.ws.port, () => info(`[WEBSERVER]: Initialized webserver at port ${client.config.opts.ws.port}!`));
+    app.listen(config.webserverPort, () => info(`[WEBSERVER]: Initialized webserver at port ${config.webserverPort}!`));
 };

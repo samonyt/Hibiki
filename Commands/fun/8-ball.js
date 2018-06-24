@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const answers = require('../../assets/json/8-ball');
+const answers = require('../../Assets/json/8-ball');
 
 module.exports = class EightBall extends Command {
     constructor(client) {

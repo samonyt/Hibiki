@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { full, none } = require('../../assets/json/gay');
+const { full, none } = require('../../Assets/json/gay');
 
 module.exports = class Gay extends Command {
     constructor(client) {

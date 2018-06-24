@@ -115,7 +115,7 @@ module.exports = class Nadeshiko extends CommandoClient {
         await info('[COMMAND HANDLER]: Initialized!');
         
         await info('[EVENT HANDLER]: Initializing event handler..');
-        readdir('./events/', (err, files) => {
+        readdir('./Events/', (err, files) => {
             if (err) return error(err);
             files.forEach(file => {
                 const event = require(`../Events/${file}`);

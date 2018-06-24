@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const settings = require('../../assets/json/settings');
+const settings = require('../../Assets/json/settings');
 
 module.exports = class ClearConfig extends Command {
     constructor(client) {

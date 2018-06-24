@@ -1,9 +1,9 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
-const { list } = require('../../modules/Util');
+const { list } = require('../../Modules/Util');
 const { translateKey } = require('../../Config');
-const codes = require('../../assets/json/translate');
+const codes = require('../../Assets/json/translate');
 
 module.exports = class Translate extends Command {
     constructor(client) {
