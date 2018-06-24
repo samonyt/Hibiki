@@ -1,5 +1,5 @@
 # PM2 Logs
-logs
+Logs
 
 # IDE shit
 .vscode
@@ -13,4 +13,4 @@ package-lock.json
 yarn.lock
 
 # Config
-config
+Config

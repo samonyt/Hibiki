@@ -12,6 +12,7 @@
 # Assets & etc
 *.png binary
 *.jpg binary
+*.bmp binary
 *.mp3 binary
 *.ogg binary
 *.ttf binary

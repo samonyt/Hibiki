@@ -1,12 +1,12 @@
 {
-    "name": "Rin",
-    "script": "./Rin.js",
-    "error_file": "./logs/err.log",
-    "out_file": "./logs/out.log",
+    "name": "Nadeshiko",
+    "script": "./Nadeshiko.js",
+    "error_file": "./Logs/err.log",
+    "out_file": "./Logs/out.log",
     "log_date_format": "YYYY-MM-DD HH:mm:ss",
     "watch": true,
     "exec_mode" : "fork",
     "max_memory_restart" : "512M",
-    "ignore_watch": ["logs", "node_modules"],
+    "ignore_watch": ["Logs", "node_modules"],
     "args": ["--color"]
 }

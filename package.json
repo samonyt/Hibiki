@@ -1,28 +1,28 @@
 {
-  "name": "rin",
-  "version": "13.1.3",
-  "description": "Rin is a modular Discord bot written in JavaScript.",
-  "main": "Rin.js",
+  "name": "nadeshiko",
+  "version": "20.0-beta",
+  "description": "Nadeshiko is anime-based modular Discord bot for your needs.",
+  "main": "Nadeshiko.js",
   "scripts": {
     "test": "npm run lint",
     "lint": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rin-bot/Rin.git"
+    "url": "git+https://github.com/NadeProjects/Nadeshiko.git"
   },
   "keywords": [
     "discord-bot",
     "discord.js-commando",
     "discord.js",
-    "rin"
+    "nadeshiko"
   ],
-  "author": "Tish",
+  "author": "TishDev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Tish/Rin/issues"
+    "url": "https://github.com/NadeProjectts/Nadeshiko/issues"
   },
-  "homepage": "https://github.com/Tish/Rin/blob/master/README.md",
+  "homepage": "https://github.com/NadeProjectts/Nadeshiko/blob/master/README.md",
   "dependencies": {
     "body-parser": "^1.18.3",
     "common-tags": "^1.8.0",

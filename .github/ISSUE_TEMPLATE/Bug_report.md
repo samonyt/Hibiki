@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help us improve Rin.
+about: Create a report to help us improve Nadeshiko.
 custom_fields: []
 
 ---
