@@ -15,7 +15,10 @@ const Nadeshiko = new Client({
     disableEveryone: true
 });
 
-init();
+info('[DATABASE]: Initializing MongoDB..');
+Nadeshiko.setProvider(MongoClient.connect(config.dbURL).then(client => new Provider(client.db(config.dbName)))).catch(error);
+info('[DATABASE]: Initialized!');
+Nadeshiko.start();
 
 Nadeshiko
     .on('message', (msg) => {
@@ -74,14 +77,3 @@ Nadeshiko
 			${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.
                 `);
     });
-
-async function init() {
-    try {
-        await info('[DATABASE]: Initializing MongoDB..');
-        await Nadeshiko.setProvider(MongoClient.connect(config.dbURL).then(client => new Provider(client.db(config.dbName)))).catch(error);
-        await info('[DATABASE]: Initialized!');
-        await Nadeshiko.start();
-    } catch (err) { 
-        await error(`[DATABASE]: Error connecting:\n ${err.stack}`);
-    }
-}
