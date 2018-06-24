@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const Strategy = require('passport-discord').Strategy;
 const scopes = ['identify', 'guilds', 'email'];
-const config = require('./Config');
+const config = require('../Config');
 
 module.exports = (client) => {
     app
@@ -37,9 +37,9 @@ module.exports = (client) => {
         done(null, obj);
     });
     passport.use(new Strategy({
-        clientID: config.opts.ids.client,
-        clientSecret: config.keys.secret,
-        callbackURL: config.opts.ws.callbackURL,
+        clientID: config.clientID,
+        clientSecret: config.clientSecret,
+        callbackURL: config.callbackURL,
         scope: scopes
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function() {
