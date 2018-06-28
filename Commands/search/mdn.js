@@ -1,0 +1,43 @@
+const { Command } = require('../../structures/Command');
+const { MessageEmbed } = require('discord.js');
+const { get } = require('sneketch');
+
+module.exports = class MDNCommand extends Command {
+    constructor(client) {
+        super(client, {
+            name: 'mdn',
+            aliases: ['mozilla-developer-network'],
+            group: 'search',
+            memberName: 'mdn',
+            description: 'Searches MDN for your query.',
+            args: [{
+                key: 'query',
+                prompt: 'What article would you like to search for?',
+                type: 'string',
+                parse: query => query.replace(/#/g, '.prototype.')
+            }]
+        });
+    }
+
+    async run(msg, { query }) {
+        try {
+            const { body } = await get('https://developer.mozilla.org/en-US/search.json')
+                .query({
+                    q: query,
+                    locale: 'en-US',
+                    highlight: false
+                });
+            if (!body.documents.length) return msg.say(this.client.translate('commands.mdn.missing'));
+            const data = body.documents[0];
+            const embed = new MessageEmbed()
+                .setColor(0x066FAD)
+                .setAuthor('MDN', 'https://i.imgur.com/DFGXabG.png', 'https://developer.mozilla.org/')
+                .setURL(data.url)
+                .setTitle(data.title)
+                .setDescription(data.excerpt);
+            return msg.embed(embed);
+        } catch (err) {
+            return msg.reply(this.client.translate('commands.error'), err.message);
+        }
+    }
+};

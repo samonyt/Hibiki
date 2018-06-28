@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
-const Random = require('random-js');
 const { big } = require('../../Assets/json/lund');
 const { MessageEmbed } = require('discord.js');
+const Random = require('random-js');
 
 module.exports = class Dick extends Command {
     constructor(client) {

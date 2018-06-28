@@ -13,6 +13,6 @@ module.exports = class Uptime extends Command {
 
     run(msg) {
         const { duration } = this.client.modules.Util;
-        msg.say(this.client.translate('commands.uptime.response', this.client.username, duration(this.client.uptime)));
+        msg.say(this.client.translate('commands.uptime.response', this.client.user.username, duration(this.client.uptime)));
     }
 };

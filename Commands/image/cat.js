@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
-const config = require('../../Config');
+const { catKey } = require('../../Config');
 
 module.exports = class Cat extends Command {
     constructor(client) {
@@ -16,7 +16,7 @@ module.exports = class Cat extends Command {
     async run(msg) {
         try {
             const { body, headers } = await get('https://thecatapi.com/api/images/get')
-                .query({ api_key: config.catKey });
+                .query({ api_key: catKey });
             const format = headers['content-type'].replace(/image\//i, '');
             return msg.say({ files: [{ attachment: body, name: `cat.${format}` }] });
         } catch (err) {

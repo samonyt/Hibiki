@@ -2,23 +2,23 @@ const { FriendlyError } = require('discord.js-commando');
 const { MongoClient } = require('mongodb');
 const { oneLine } = require('common-tags');
 const { error, info } = require('winston');
+const { commandPrefix, dbName, dbURL, disableEveryone, invite, owner, unknownCommandResponse } = require('./Config');
 
 const Client = require('./Client/');
 const Provider = require('./Providers/MongoDB');
-const config = require('./Config');
 
-const Nadeshiko = new Client({
-    owner: config.owner,
-    commandPrefix: config.prefix,
-    invite: config.invite,
-    unknownCommandResponse: false,
-    disableEveryone: true
-});
+const Nadeshiko = new Client({ owner, commandPrefix, invite, unknownCommandResponse, disableEveryone });
+Nadeshiko.start();
 
 info('[DATABASE]: Initializing MongoDB..');
-Nadeshiko.setProvider(MongoClient.connect(config.dbURL).then(client => new Provider(client.db(config.dbName)))).catch(error);
+Nadeshiko.setProvider(MongoClient.connect(dbURL).then(client => new Provider(client.db(dbName))));
 info('[DATABASE]: Initialized!');
-Nadeshiko.start();
+
+Nadeshiko.dispatcher.addInhibitor(msg => {
+    const blacklist = this.provider.get('global', 'blacklistUsers', []);
+    if (!blacklist.includes(msg.author.id)) return false;
+    return msg.say(`❎ | Sorry, it seems that you're blacklisted from using ${this.user.tag}. Contact ${this.options.owner.user.tag} for more details.`);
+});
 
 Nadeshiko
     .on('message', (msg) => {

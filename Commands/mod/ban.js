@@ -35,7 +35,6 @@ module.exports = class Ban extends Command {
             const embed = new MessageEmbed()
                 .setColor(0xff0000)
                 .setDescription(this.client.translate('commands.ban.embed.response', member.user.tag, msg.author.tag, reason));
-            await this.client.modDM(['ban', 'banned'], msg.guild, member.user, msg.author, reason);
             await member.ban({ days: 0, reason });
             await modlog.send({ embed });
             await msg.say(this.client.translate('commands.ban.response', member.user.tag, reason));

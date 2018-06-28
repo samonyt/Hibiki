@@ -1,13 +1,13 @@
+const { callbackURL, clientID, clientSecret, webserverPort } = require('../Config');
+const { info } = require('winston');
+const { Strategy } = require('passport-discord');
 const express = require('express');
 const session  = require('express-session');
 const app = express();
-const { info } = require('winston');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const Strategy = require('passport-discord').Strategy;
-const scopes = ['identify', 'guilds', 'email'];
-const config = require('../Config');
+const scope = ['identify', 'guilds', 'email'];
 
 module.exports = (client) => {
     app
@@ -36,16 +36,12 @@ module.exports = (client) => {
     passport.deserializeUser(function(obj, done) {
         done(null, obj);
     });
-    passport.use(new Strategy({
-        clientID: config.clientID,
-        clientSecret: config.clientSecret,
-        callbackURL: config.callbackURL,
-        scope: scopes
-    }, function(accessToken, refreshToken, profile, done) {
-        process.nextTick(function() {
-            return done(null, profile);
-        });
-    }));
+    passport.use(new Strategy({ clientID, clientSecret, callbackURL, scope }, 
+        function(accessToken, refreshToken, profile, done) {
+            process.nextTick(function() {
+                return done(null, profile);
+            });
+        }));
     app
         .use(session({
             secret: 'Uv4uaDHTbg1WrKwzK4or',
@@ -71,9 +67,7 @@ module.exports = (client) => {
         .get('/dashboard', checkAuth, (req, res) => {
             res.render('dashboard', { client, user: req.user });
         })
-        .get('/login', passport.authenticate('discord', {
-            scope: scopes,  
-        }))
+        .get('/login', passport.authenticate('discord', { scope }))
         .get('/login/callback', passport.authenticate('discord', { failureRedirect: '/login/fail' }), 
             function(req, res) { 
                 res.redirect('/dashboard'); 
@@ -91,5 +85,5 @@ module.exports = (client) => {
         return res.redirect('/login/');
     }
 
-    app.listen(config.webserverPort, () => info(`[WEBSERVER]: Initialized webserver at port ${config.webserverPort}!`));
+    app.listen(webserverPort, () => info(`[WEBSERVER]: Initialized webserver at port ${webserverPort}!`));
 };

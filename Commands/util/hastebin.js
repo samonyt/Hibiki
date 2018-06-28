@@ -1,5 +1,4 @@
 const { Command } = require('discord.js-commando');
-const { post } = require('snekfetch');
 
 module.exports = class Hastebin extends Command {
     constructor(client) {
@@ -19,8 +18,8 @@ module.exports = class Hastebin extends Command {
 
     async run(msg, { code }) {
         try {
-            const { body } = await post('https://hastebin.com/documents').send(code.code);
-            return msg.say(`https://hastebin.com/${body.key}.${code.lang || 'js'}`);
+            const result = await this.client.modules.UploadToHaste(code);
+            return msg.say(result);
         } catch (err) {
             return msg.say(this.client.translate('commands.error'), err.message);
         }

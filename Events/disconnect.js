@@ -1,5 +1,6 @@
 const { warn } = require('winston');
+const { inspect } = require('util');
 
-module.exports = (evt) => {
-    warn(`[DISCONNECT]: Disconnected from Discord, reason: ${evt.reason}.`);
+module.exports = (err) => {
+    warn(`[DISCONNECT]: Disconnected from Discord, reason: ${inspect(err, { depth: 0 })}.`);
 };

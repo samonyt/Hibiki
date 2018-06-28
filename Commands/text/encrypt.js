@@ -1,5 +1,4 @@
 const { Command } = require('discord.js-commando');
-const { stripIndents } = require('common-tags');
 
 module.exports = class Encrypt extends Command {
     constructor(client) {
@@ -18,13 +17,9 @@ module.exports = class Encrypt extends Command {
 
     run(msg, { text }) {
         try {
-            msg.say(stripIndents`
-                        ✅ Encrypted!
-
-                        ${this.client.encryptor.encrypt(text)}
-                        `);
+            msg.say(this.client.encryptor.encrypt(text));
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            return msg.say(this.client.translate('commands.encrypt.fail'));
         }
     }
 };

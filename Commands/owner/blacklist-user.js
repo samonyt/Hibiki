@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { error } = require('winston');
 
 module.exports = class BlacklistUser extends Command {
     constructor(client) {
@@ -33,9 +34,13 @@ module.exports = class BlacklistUser extends Command {
         const blacklist = await this.client.provider.get('global', 'blacklistUsers', []);
         if (blacklist.includes(user.id)) return msg.say(this.client.translate('commands.blacklist.isBlacklisted'));
 
-        await blacklist.push(user.id);
-        await this.client.provider.set('global', 'blacklistUsers', blacklist);
+        try {
+            await blacklist.push(user.id);
+            await this.client.provider.set('global', 'blacklistUsers', blacklist);
         
-        return msg.react('✅');
+            return msg.react('✅');
+        } catch (err) {
+            error('[BLACKLIST ERROR]:\n %s', err.stack);
+        }
     }
 };

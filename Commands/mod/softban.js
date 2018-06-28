@@ -36,7 +36,6 @@ module.exports = class Softban extends Command {
                 .setColor(0xFFFF00)
                 .setDescription(this.client.translate('commands.softban.embed.response', member.user.tag, msg.author.tag, reason));
             await modlog.send({ embed });
-            await this.client.modDM(['softban', 'softbanned'], msg.guild, member.user, msg.author, reason);
             await member.ban({ days: 0, reason });
             await msg.guild.members.unban(member.id);
             await msg.say(this.client.translate('commands.softban.response', member.user.tag, reason));

@@ -1,6 +1,6 @@
 module.exports = (filter) => {
     switch (filter) {
-    case '':
+    case null || undefined:
         return 'None';
     case 'invites':
         return 'Invites';

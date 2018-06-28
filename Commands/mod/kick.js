@@ -36,7 +36,6 @@ module.exports = class Kick extends Command {
             const embed = new MessageEmbed()
                 .setColor(0xFFFF00)
                 .setDescription(this.client.translate('commands.kick.embed.response', member.user.tag, msg.author.tag, reason));
-            await this.client.modDM(['kick', 'kicked'], msg.guild, member.user, msg.author, reason);
             await modlog.send({ embed });
             await msg.say(this.client.translate('commands.ban.response', member.user.tag, reason));
         } catch (err) {

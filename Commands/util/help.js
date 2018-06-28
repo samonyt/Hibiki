@@ -26,7 +26,7 @@ module.exports = class Help extends Command {
         if (!command) {
             const embed = new MessageEmbed()
                 .setTitle('Command List')
-                .setColor(0x00AE86)
+                .setColor(this.client.color)
                 .setFooter(`${this.client.registry.commands.size} Commands`);
             for (const group of this.client.registry.groups.values()) {
                 embed.addField(`❯ ${group.name}`, group.commands.map(cmd => cmd.name).join(', ') || 'None');

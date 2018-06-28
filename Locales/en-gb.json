@@ -136,5 +136,9 @@
     "commands.channel.createdOn": "❯ Creation date",
     "commands.channel.topic": "❯ Topic",
     "commands.whitelist.notBlacklisted": "❎ | That user is not blacklisted.",
-    "commands.nsfw.notNSFW": "This channel is not marked as NSFW."
+    "commands.nsfw.notNSFW": "This channel is not marked as NSFW.",
+    "commands.encrypt.fail": "I was unable to encrypt your message.",
+    "commands.decrypt.fail": "I was unable to decrypt your message.",
+    "commands.wikipedia.missing": "No results.",
+    "commands.mdn.missing": "No results."
 }
