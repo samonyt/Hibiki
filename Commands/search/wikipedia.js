@@ -1,9 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
-const { shorten } = require('../../util/Util');
 
-module.exports = class WikipediaCommand extends Command {
+module.exports = class Wikipedia extends Command {
     constructor(client) {
         super(client, {
             name: 'wikipedia',
@@ -41,7 +40,7 @@ module.exports = class WikipediaCommand extends Command {
                 .setAuthor('Wikipedia', 'https://i.imgur.com/Z7NJBK2.png', 'https://www.wikipedia.org/')
                 .setThumbnail(data.thumbnail ? data.thumbnail.source : null)
                 .setURL(`https://en.wikipedia.org/wiki/${encodeURIComponent(query).replace(/\)/g, '%29')}`)
-                .setDescription(shorten(data.extract.replace(/\n/g, '\n\n')));
+                .setDescription(this.client.modules.Util.shorten(data.extract.replace(/\n/g, '\n\n')));
             return msg.embed(embed);
         } catch (err) {
             return msg.say(this.client.translate('commands.error'), err.message);

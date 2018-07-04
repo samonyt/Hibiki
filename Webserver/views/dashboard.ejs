@@ -1,59 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title><%= client.user.username %></title>
-    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
-    <link href="pub/img/favicon.png" rel="shortcut icon" />
-    <link href="pub/css/fontawesome-all.css" rel="stylesheet">
-    <link href="pub/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="pub/css/mdb.min.css" rel="stylesheet" />
-    <link href="pub/css/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= client.user.username %>
+    </title>
+    <link rel="stylesheet" href="https://jenil.github.io/bulmaswatch/materia/bulmaswatch.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link rel="stylesheet" href="/pub/css/bulma.css">
 </head>
 
 <body>
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
-            <a class="animated fadeInUp navbar-brand" href="#"><%= client.user.username %></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="basicExampleNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                </ul>
-                <div class="nav-inline">
-                    <button type="button" class="btn btn-success btn-sm" onclick="location.href='/login'"><i class="fas fa-door-open"></i> Login</button>
+    <section class="section">
+        <div class="container">
+            <div class="navbar-menu">
+                <div class="navbar-brand" id="brand">
+                    <b id="home-text">
+                        <%= client.user.username %>
+                    </b>
+                </div>
+                <div class="navbar-start">
+                    <a onclick="location.href='/'" class="navbar-item" id="home">
+                        <span class="icon">
+                            <i class="fas fa-home" id="icon-home"></i>
+                        </span>
+                        <span>Home</span>
+                    </a>
+                    <a onclick="location.href='/stats'" class="navbar-item" id="stats">
+                        <span class="icon">
+                            <i class="fas fa-desktop"></i>
+                        </span>
+                        <span>Statistics</span>
+                    </a>
+                    <a onclick="location.href='/api'" class="navbar-item" id="api">
+                        <span class="icon">
+                            <i class="fas fa-code"></i>
+                        </span>
+                        <span>API</span>
+                    </a>
+                </div>
+                <div class="navbar-end">
+                    <a onclick="location.href='/logout'" class="button is-warning">
+                        <span class="icon">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                </div>
             </div>
-        </nav>
-    </div>
-
-    <script type="text/javascript" src="pub/js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="pub/js/popper.min.js"></script>
-    <script type="text/javascript" src="pub/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="pub/js/mdb.min.js"></script>
+            <h1 class="title">
+                Welcome, <%= user.username %>.
+            </h1>
+            <p class="subtitle">
+                Use the navigation bar to navigate through the website.
+            </p>
+            <% const guilds = user.guilds.filter(g => modules.Perms.convertPerms(g.permissions)["MANAGE_GUILD"] === true).filter(g => client.guilds.get(g.id)) %>
+                <% const gj = guilds.map(g => g.name) %>
+                    <% if (gj.length === 0) { %>
+                        <p id="no-guilds">
+                            <strong>
+                                <i class="far fa-times-circle"></i> You have no guilds to manage. :(</strong>
+                        </p>
+                        <% } else { %>
+                            <nav class="panel">
+                                <p class="panel-tabs">
+                                    <a class="is-active" id="server-tab">Servers</a>
+                                </p>
+                                <a class="panel-block" id="panel">
+                                    <span class="panel-icon" id="icon-panel">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    <p>
+                                        <%= gj %>
+                                    </p>
+                                </a>
+                            </nav>
+                            <% } %>
+        </div>
+    </section>
 </body>
 
 </html>

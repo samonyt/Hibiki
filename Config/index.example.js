@@ -1,0 +1,179 @@
+module.exports = {
+    
+    /*
+        The callback URL for your bot. Used for dashboard login.
+        You can get your Callback URL by going here: https://discordapp.com/developers/applications/me
+    */
+
+    callbackURL: '',
+
+    /*
+        Cat API key.
+        Get your Cat API key here: https://thecatapi.com/api-key-registration.html
+    */
+
+    catKey: '',
+
+    /*
+        The Client ID for your bot.
+    */
+
+    clientID: '',
+
+    /* 
+        The Client Secret for your bot.
+    */
+
+    clientSecret: '',
+
+    /*
+        The color for your bot. Can be random HEX color, must be started at 0x.
+    */
+
+    color: 0xFF0000,
+
+    /*
+        The prefix for your bot.
+    */
+
+    commandPrefix: '',
+
+    /*
+        The MongoDB database name for your bot.
+    */
+
+    dbName: '',
+
+    /*
+        The MongoDB database URL for your bot.
+    */
+
+    dbURL: '',
+
+    /*
+        Choose if you want @everyone to be disabled from your bot.
+    */
+
+    disableEveryone: true,
+
+    /*
+        The encryption key to store encryption data. 
+        DON'T SHARE THIS WITH ANYONE!
+        Can be random characters long (see encryptionMin).
+    */
+
+    encryptionKey: '',
+
+    /*
+        The encryption key maximum character length.
+    */
+
+    encryptionMin: 16,
+
+    /*
+        Fortnite API key.
+        Get yours here: https://fortnitetracker.com/site-api
+    */
+
+    fortniteKey: '',
+
+    /*
+        Activity games for your bot. 
+        Must have at-least 2 games, can be an array.
+    */
+
+    games: ['your', 'games', 'here!'],
+
+    /*
+        GitHub Gist API key.
+        Go to GitHub, Profile Settings, Developer Settings and then go to Personal Access Tokens.
+        Create a new app with "gist" permissions.
+    */
+
+    gistKey: '',
+
+    /*
+        Guild log channel for your bot. 
+        Used to store the new/left guild message logs and more.
+    */
+
+    guildLog: '',
+
+    /*
+        Support invite for your bot's server. 
+        Specify this to null if you want to disable it.
+    */
+
+    invite: '',
+
+    /*
+        Genius API key.
+        Get yours here: https://docs.genius.com
+    */
+
+    lyricsKey: '',
+
+    /*
+        osu! API key.
+        Get yours here: https://osu.ppy.sh/p/api
+    */
+
+    osuKey: '',
+
+    /*
+        Owner ID for your bot to have full control of your bot.
+    */
+
+    owner: '',
+
+    /*
+        Set if the account is user or just a bot.
+    */
+
+    selfbot: false,
+
+    /*
+        Your Discord bot's token. 
+        DON'T SHARE THIS WITH ANYBODY!
+    */
+
+    token: '',
+
+    /*
+        Yandex Translate API key.
+        Get yours here: https://tech.yandex.com/translate/
+
+    */
+    translateKey: '',
+
+    /*
+        Decide if you want to show "Unknown command" messages,
+        whenever used executed a non-existing command.
+    */
+    unknownCommandResponse: false,
+
+    /*
+        Apixu API key for weather.
+        Get yours here: https://www.apixu.com/
+    */
+
+    weatherKey: '',
+
+    /*
+        Your webhook ID.
+    */
+
+    webhookID: '',
+
+    /*
+        Your webhook token.
+    */
+
+    webhookToken: '',
+
+    /*
+        Your webserver port. Can be any up to 99999.
+    */
+
+    webserverPort: 7000
+}

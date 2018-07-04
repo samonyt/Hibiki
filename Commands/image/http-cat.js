@@ -23,7 +23,7 @@ module.exports = class HTTPCat extends Command {
 
     async run(msg, { code }) {
         try {
-            const { body } = await get(`https://http.cat/${code}.png`);
+            const { body } = await get(`https://http.cat/${code}`);
             return msg.say({ files: [{ attachment: body, name: 'code.png' }] });
         } catch (err) {
             return msg.say(this.client.translate('commands.error'), err.message);

@@ -1,8 +1,8 @@
-const { Command } = require('../../structures/Command');
+const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { get } = require('sneketch');
+const { get } = require('snekfetch');
 
-module.exports = class MDNCommand extends Command {
+module.exports = class MDN extends Command {
     constructor(client) {
         super(client, {
             name: 'mdn',

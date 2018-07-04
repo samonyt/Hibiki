@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const { error } = require('winston');
 
 module.exports = class Unban extends Command {
     constructor(client) {
@@ -34,14 +35,14 @@ module.exports = class Unban extends Command {
         if (!bans.has(id)) return msg.say(this.client.translate('commands.unban.notBanned'));
         const member = bans.get(id).user;
         try {
-            await this.client.users.get(id).send(this.client.translate('commands.unban.response', msg.guild.name, reason));
             await msg.guild.members.unban(member, { reason });
             const embed = new MessageEmbed()
                 .setColor(0x00ff00)
-                .setDescription(this.client.translate('commands.unban.embed.response', member.user.tag, msg.author.tag, reason));
+                .setDescription(`✅ | **User unbanned**: ${member ? member.tag : `I was unable to display the user... (${id})`}\n**Issuer**: ${msg.author.tag}\n**Reason**: ${reason}`);
             await modlog.send({ embed });
             await msg.say(this.client.translate('commands.unban.response', member.username, reason));
         } catch (err) {
+            await error(err.stack);
             await msg.say(this.client.translate('commands.error', err.message));
         }
     }

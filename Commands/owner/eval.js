@@ -38,6 +38,10 @@ module.exports = class Eval extends Command {
             let data = `${responseTypeOf.replace(new RegExp(`
                 ${this.client.token}|${config.token}|${config.osuKey}|${config.catKey}|${config.translateKey}|${config.weatherKey}|${config.encryptionKey}|${config.fortniteKey}|${config.lyricsKey}|${config.webhookID}|${config.webhookToken}
             `, 'g'), '「ｒｅｄａｃｔｅｄ」')}`;
+            if (data.length > 1024) {
+                const resp = await this.client.modules.UploadToGist(data);
+                return msg.say(`The eval response is more than 1024 characters, so I uploaded the contents here.\n${resp.body.html_url}`);
+            }
             const embed = new MessageEmbed()
                 .setColor(this.client.color)
                 .setFooter(`v${this.client.version}`)

@@ -1,4 +1,4 @@
-const { callbackURL, clientID, clientSecret, webserverPort } = require('../Config');
+const { callbackURL, clientID, clientSecret, owner, webserverPort } = require('../Config');
 const { info } = require('winston');
 const { Strategy } = require('passport-discord');
 const express = require('express');
@@ -8,6 +8,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const scope = ['identify', 'guilds', 'email'];
+
+const getAuthUser = user => ({
+    username: user.username,
+    id: user.id,
+    avatar: user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png',
+});
 
 module.exports = (client) => {
     app
@@ -54,7 +60,13 @@ module.exports = (client) => {
             express.static(`${__dirname}/public/${req.params.type}`, { maxAge: 86400000 })(req, res, next);
         })
         .get('/', (req, res) => {
-            res.render('landing', { client });
+            res.render('landing', { 
+                client,
+                authUser: req.isAuthenticated() ? getAuthUser(req.user) : null
+            });
+        })
+        .get('/stats', (req, res) => {
+            res.render('stats', { client });
         })
         .get('/api', async (req, res) => {
             res.json({
@@ -64,8 +76,27 @@ module.exports = (client) => {
                 user_count: await client.users.size,
             });
         })
+        .get('/guild/:id', checkAuth, async (req, res) => {
+            try {
+                if (req.user.id === owner) {
+                    await res.json({
+                        name: client.guilds.get(req.params.id).name,
+                        id: client.guilds.get(req.params.id).id,
+                        members: client.guilds.get(req.params.id).memberCount,
+                        createdAt: client.guilds.get(req.params.id).createdAt,
+                        owner: `${client.guilds.get(req.params.id).owner.user.tag} (${client.guilds.get(req.params.id).owner.user.id})`
+                    });
+                } else res.sendStatus(403).send('Forbidden.');
+            } catch (err) {
+                res.render('login_err', { client });
+            } 
+        })
         .get('/dashboard', checkAuth, (req, res) => {
-            res.render('dashboard', { client, user: req.user });
+            res.render('dashboard', { client, modules: client.modules, user: req.user });
+        })
+        .get('/dashboard/server/:id', checkAuth, (req, res) => {
+            const guild = client.guilds.get(req.params.id);
+            res.render('guildInfo', { client, guild, user: req.user });
         })
         .get('/login', passport.authenticate('discord', { scope }))
         .get('/login/callback', passport.authenticate('discord', { failureRedirect: '/login/fail' }), 

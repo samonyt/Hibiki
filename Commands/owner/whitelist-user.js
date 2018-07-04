@@ -25,7 +25,7 @@ module.exports = class WhitelistUser extends Command {
 
     async run(msg, { user }) {
         const blacklist = await this.client.provider.get('global', 'blacklistUsers', []);
-        if (!blacklist.includes(user.id)) return msg.say(this.client.translate('commands.whitelist.notBlacklisted'));
+        if (!blacklist.includes(user.id)) return msg.say('❎ | That user is not blacklisted.');
 
         const index = await blacklist.indexOf(user.id);
         await blacklist.splice(index, 1);

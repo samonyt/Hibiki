@@ -37,6 +37,7 @@ module.exports = class About extends Command {
         • Channels :: ${this.client.channels.size}
         • Groups :: ${this.client.registry.groups.size}
         • Commands :: ${this.client.commands.size}
+        • Commands used :: ${this.client.cmdsUsed}
         • Users :: ${this.client.users.size}
         \`\`\` 
         `,);

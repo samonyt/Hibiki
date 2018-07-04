@@ -4,26 +4,19 @@ const { readdirSync } = require('fs');
 const { version } = require('../package');
 const { join } = require('path');
 const { error, info } = require('winston');
-const { color, webhookID, webhookToken, encryptionKey, token } = require('../Config');
+const { color, webhookID, webhookToken, token } = require('../Config');
 
 const Webserver = require('../Webserver/Server');
 const Command = require('../Managers/Command');
 const Event = require('../Managers/Event');
 const i18n = require('i18n');
 
-i18n.configure({
-    autoReload: true,
-    cookie: 'locale',
-    defaultLocale: 'en-gb',
-    directory: join(__dirname, '..', 'Locales'),
-    updateFiles: false,
-});
-
 module.exports = class Nadeshiko extends CommandoClient {
     constructor (options) {
         super (options);
         this.modules = {};
         this.color = color;
+        this.cmdsUsed = 0;
         this.commands = this.registry.commands;
         this.version = version;
         this.webhook = new WebhookClient(webhookID, webhookToken);
@@ -35,13 +28,23 @@ module.exports = class Nadeshiko extends CommandoClient {
             this.modules[moduleName] = require(`../Modules/${moduleName}`);
         }
 
-        this.encryptor = new this.modules.Encryption({ key: encryptionKey });
+        this.encryptor = new this.modules.Encryption();
 
         process.on('unhandledRejection', err => {
             if (error.code && (error.code === 50006 || error.code === 50007 || error.code === 50013)) return;
             error(`[UNHANDLED PROMISE REJECTION]:\n${err.stack}`);
         });
 
+    }
+
+    async i18n () {
+        i18n.configure({
+            autoReload: true,
+            cookie: 'locale',
+            defaultLocale: 'en-gb',
+            directory: join(__dirname, '..', 'Locales'),
+            updateFiles: false,
+        });
     }
 
     async start () {
@@ -57,6 +60,7 @@ module.exports = class Nadeshiko extends CommandoClient {
         await Webserver(this);
         
         await info('[DISCORD]: Connecting to Discord..');
-        this.login(token);
+        await this.login(token);
+        await this.i18n();
     }
 };

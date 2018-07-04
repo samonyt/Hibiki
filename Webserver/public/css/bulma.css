@@ -1,0 +1,32 @@
+html {
+    overflow: hidden;
+    background-color: #212121;
+}
+
+b#home-text {
+    color: #FFF;
+    margin-top: 19px;
+    margin-bottom: 19px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.title, .subtitle, .statistics, 
+.servers, .commands, .groups, 
+.users, .channels, #no-guilds, #guild-name { 
+    text-align: center;
+}
+
+
+#home:hover, #stats:hover, #api:hover, 
+#panel:hover {
+    background-color: #191919;
+}
+
+span, p, #icon-panel, .title, .subtitle, #server-tab {
+    color: #FFF;
+}
+
+.title {
+    padding-top: 50px;
+}

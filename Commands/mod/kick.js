@@ -24,7 +24,7 @@ module.exports = class Kick extends Command {
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('BAN_MEMBERS');
+        return this.client.isOwner(msg.author) || msg.member.permissions.has('KICK_MEMBERS');
     }
 
     async run(msg, { member, reason } ) {
@@ -32,12 +32,17 @@ module.exports = class Kick extends Command {
         if (!msg.guild.me.permissions.has('KICK_MEMBERS')) return msg.say(this.client.translate('commands.kick.me.noPerms'));
         if (!modlog) return msg.say(this.client.translate('commands.noModLog', msg.guild.commandPrefix));
         try {
-            await msg.guild.member(member).kick(reason);
-            const embed = new MessageEmbed()
-                .setColor(0xFFFF00)
-                .setDescription(this.client.translate('commands.kick.embed.response', member.user.tag, msg.author.tag, reason));
-            await modlog.send({ embed });
-            await msg.say(this.client.translate('commands.ban.response', member.user.tag, reason));
+            const resp = await this.client.modules.AwaitReply(msg, `Do you really want to ick **${member}**?\nRespond with "yes" or "no".`, 30000);
+            if (['y', 'yes'].includes(resp.toLowerCase())) {
+                await msg.guild.member(member).kick(reason);
+                const embed = new MessageEmbed()
+                    .setColor(0xFFFF00)
+                    .setDescription(this.client.translate('commands.kick.embed.response', member.user.tag, msg.author.tag, reason));
+                await modlog.send({ embed });
+                await msg.say(this.client.translate('commands.kick.response', member.user.tag, reason));
+            } else if (['n', 'no', 'cancel'].includes(resp.toLowerCase())) {
+                return msg.say('Cancelled the kick.');
+            }
         } catch (err) {
             await msg.say(this.client.translate('commands.error', err.message));
         }

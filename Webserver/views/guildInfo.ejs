@@ -17,9 +17,7 @@
         <div class="container">
             <div class="navbar-menu">
                 <div class="navbar-brand" id="brand">
-                    <b id="home-text">
-                        <%= client.user.username %>
-                    </b>
+                    <b id="home-text"><%= client.user.username %></b>
                 </div>
                 <div class="navbar-start">
                     <a onclick="location.href='/'" class="navbar-item">
@@ -42,28 +40,57 @@
                     </a>
                 </div>
                 <div class="navbar-end">
-                    <a onclick="location.href='/login'" class="button is-primary">
+                    <a onclick="location.href='/logout'" class="button is-danger">
                         <span class="icon">
                             <i class="fas fa-sign-in-alt"></i>
                         </span>
-                        <span>Login</span>
+                        <span>Logout</span>
                     </a>
                 </div>
             </div>
             <h1 class="title">
-                Whoops! An error has occured.
+                Welcome,
+                <%= user.username %>.
             </h1>
             <p class="subtitle">
-                Try again later.
+                Information for
+                <%= guild.name %>:
             </p>
-            <div class="buttons is-centered">
-                <a class="button is-success" onclick="location.href='/'">
-                    <span class="icon">
-                        <i class="fas fa-home"></i>
-                    </span>
-                    <span>Go back</span>
-                </a>
-            </div>
+
+            <aside class="menu">
+                <p class="menu-label">
+                  General
+                </p>
+                <ul class="menu-list">
+                  <li><a>Dashboard</a></li>
+                  <li><a>Customers</a></li>
+                </ul>
+                <p class="menu-label">
+                  Administration
+                </p>
+                <ul class="menu-list">
+                  <li><a>Team Settings</a></li>
+                  <li>
+                    <a class="is-active">Manage Your Team</a>
+                    <ul>
+                      <li><a>Members</a></li>
+                      <li><a>Plugins</a></li>
+                      <li><a>Add a member</a></li>
+                    </ul>
+                  </li>
+                  <li><a>Invitations</a></li>
+                  <li><a>Cloud Storage Environment Settings</a></li>
+                  <li><a>Authentication</a></li>
+                </ul>
+                <p class="menu-label">
+                  Transactions
+                </p>
+                <ul class="menu-list">
+                  <li><a>Payments</a></li>
+                  <li><a>Transfers</a></li>
+                  <li><a>Balance</a></li>
+                </ul>
+              </aside>
         </div>
     </section>
 </body>
