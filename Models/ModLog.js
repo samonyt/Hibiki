@@ -34,15 +34,15 @@ let Modlogs = database.db.define('modlogs', {
 });
 */
 let Modlogs = database.db.define('modlogs', {
-	guildID: Sequelize.STRING,
-	userID: Sequelize.STRING,
-	globalCaseCount: {
-		type: Sequelize.INTEGER,
-		unique: true
-	},
-	type: Sequelize.STRING,
-	reason: Sequelize.STRING,
-	caseCount: Sequelize.INTEGER
+    guildID: Sequelize.STRING,
+    userID: Sequelize.STRING,
+    globalCaseCount: {
+        type: Sequelize.INTEGER,
+        unique: true
+    },
+    type: Sequelize.STRING,
+    reason: Sequelize.STRING,
+    caseCount: Sequelize.INTEGER
 });
 
 Modlogs.sync();

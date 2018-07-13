@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { error } = require('winston');
 
 module.exports = class WhitelistUser extends Command {
     constructor(client) {
