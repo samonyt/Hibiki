@@ -1,0 +1,16 @@
+# PM2 Logs
+Logs
+
+# IDE shit
+.vscode
+.idea
+
+# NPM
+node_modules
+package-lock.json
+
+# Yarn
+yarn.lock
+
+# Config
+Config/index.js

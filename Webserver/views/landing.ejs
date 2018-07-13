@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= client.user.username %></title>
+  <link rel="stylesheet" href="https://jenil.github.io/bulmaswatch/materia/bulmaswatch.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <link rel="stylesheet" href="/pub/css/bulma.css">
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="navbar-menu">
+        <div class="navbar-brand" id="brand">
+          <b id="home-text">
+            <%= client.user.username %>
+          </b>
+        </div>
+        <div class="navbar-start">
+          <a onclick="location.href='/'" class="navbar-item" id="home">
+            <span class="icon">
+              <i class="fas fa-home"></i>
+            </span>
+            <span>Home</span>
+          </a>
+          <a onclick="location.href='/stats'" class="navbar-item" id="stats">
+            <span class="icon">
+              <i class="fas fa-desktop"></i>
+            </span>
+            <span>Statistics</span>
+          </a>
+          <a onclick="location.href='/api'" class="navbar-item" id="api">
+            <span class="icon">
+              <i class="fas fa-code"></i>
+            </span>
+            <span>API</span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <% if (authUser) { %>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                <img class="image is-24x24" src="<%= authUser.avatar %>" style="border-radius: 10%;" alt="<%= authUser.id %>"> &nbsp; &nbsp;
+                <p>
+                  <%= authUser.username %>
+                </p>
+              </a>
+
+              <div class="navbar-dropdown">
+                <a class="navbar-item" onclick="location.href='/dashboard'">
+                  <span class="icon">
+                    <i class="fas fa-columns"></i>
+                  </span>
+                  <span>Dashboard</span>
+                </a>
+                <a class="navbar-item" onclick="location.href='/logout'" id="logout">
+                  <span class="icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </div>
+
+            <% } else { %>
+              <a onclick="location.href='/login'" class="button is-primary">
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>Login</span>
+              </a>
+              <% } %>
+        </div>
+      </div>
+      <h1 class="title">
+        Welcome.
+      </h1>
+      <p class="subtitle">
+        Use the navigation bar to navigate through the website.
+      </p>
+    </div>
+  </section>
+</body>
+
+</html>

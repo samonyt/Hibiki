@@ -1,0 +1,19 @@
+# Scripts & text
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+
+# Git & NPM
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.npmrc text eol=lf
+
+# Assets & etc
+*.png binary
+*.jpg binary
+*.bmp binary
+*.mp3 binary
+*.ogg binary
+*.ttf binary
+*.otf binary

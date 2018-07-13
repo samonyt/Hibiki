@@ -1,0 +1,10 @@
+sudo: false
+language: node_js
+node_js:
+  - '10'
+install: npm i
+jobs:
+  include:
+    - stage: test
+      script: bash ./Travis/test.sh
+dist: trusty
