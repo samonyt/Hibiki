@@ -15,7 +15,7 @@ module.exports = class HTTPDog extends Command {
             },
             args: [{
                 key: 'code',
-                prompt: 'What is the code?\n',
+                prompt: 'WhatX is the code?\n',
                 type: 'integer'
             }]
         });

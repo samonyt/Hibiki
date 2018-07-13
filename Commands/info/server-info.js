@@ -18,7 +18,7 @@ module.exports = class ServerInfo extends Command {
     run(msg) {
         const embed = new MessageEmbed()
             .setThumbnail(msg.guild.iconURL({ size: 2048 }))
-            .setColor(0x0E2F44)
+            .setColor(this.client.color)
             .addField(this.client.translate('commands.server.name'),
                 `${msg.guild.name}`, true)
             .addField(this.client.translate('commands.server.id'),
