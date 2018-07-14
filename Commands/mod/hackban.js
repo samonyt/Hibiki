@@ -24,7 +24,7 @@ module.exports = class Hackban extends Command {
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
+        return this.client.isOwner(msg.author) || msg.member.permissions.has('BAN_MEMBERS');
     }
 
     async run(msg, { id, reason } ) {

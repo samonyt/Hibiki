@@ -42,7 +42,9 @@ module.exports = class Clean extends Command {
         });
     }
 
-    hasPermission(msg) {        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);    }
+    hasPermission(msg) {        
+        this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);    
+    }
 
     async run(msg, { filter, limit, member }) {
         const modlog = await msg.guild.channels.get(msg.guild.settings.get('modLog'));
