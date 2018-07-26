@@ -1,2 +1,2 @@
 # Hibiki
-![Travis CI](https://api.travis-ci.org/HibikiTeam/Hibiki.svg?branch=master)
+![Travis CI](https://api.travis-ci.org/HibikiTeam/Hibiki.svg?branch=master) 
