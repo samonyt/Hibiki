@@ -27,7 +27,7 @@ module.exports = class Hibiki extends CommandoClient {
         this.encryptor = new this.modules.Encryption();
 
         process.on('unhandledRejection', err => {
-            if (error.code && (error.code === 50006 || error.code === 50007 || error.code === 50013)) return;
+            if (error.code === 50006 || error.code === 50007 || error.code === 50013) return;
             error(`[UNHANDLED PROMISE REJECTION]:\n${err.stack}`);
         });
 

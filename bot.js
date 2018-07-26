@@ -1,21 +1,29 @@
 const { FriendlyError } = require('discord.js-commando');
 const { oneLine } = require('common-tags');
 const { error, info } = require('winston');
-const { commandPrefix, disableEveryone, invite, owner, unknownCommandResponse } = require('./Config');
+
+const { 
+    blacklistMessage, commandPrefix, disableEveryone, invite, owner, unknownCommandResponse 
+} = require('./Config');
 
 const Client = require('./Structures/Hibiki');
 const SequelizeProvider = require('./Providers/Sequelize');
 
-const Hibiki = new Client({ owner, commandPrefix, invite, unknownCommandResponse, disableEveryone });
+const Hibiki = new Client({ 
+    commandPrefix, disableEveryone, invite, owner, unknownCommandResponse
+});
 
 Hibiki.start();
 Hibiki.setProvider(new SequelizeProvider(Hibiki.database)).catch(error);
 
 Hibiki.dispatcher.addInhibitor(msg => {
     const blacklist = Hibiki.provider.get('global', 'blacklistUsers', []);
-    if (!blacklist.includes(msg.author.id)) 
-        return false;
-    return msg.say(`❎ | Sorry, it seems that you're blacklisted from using **${Hibiki.user.username}**. Contact **${Hibiki.users.get(Hibiki.options.owner).tag}** for more details.`);
+    if (!blacklist.includes(msg.author.id)) return false;
+    const message = blacklistMessage
+        .replace(/(<user>)/, msg.author.username)
+        .replace(/(<bot>)/, Hibiki.user.username)
+        .replace(/(<owner>)/, Hibiki.users.get(Hibiki.options.owner).tag);
+    return msg.say(message);
 });
 
 Hibiki

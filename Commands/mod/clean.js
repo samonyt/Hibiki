@@ -43,7 +43,7 @@ module.exports = class Clean extends Command {
     }
 
     hasPermission(msg) {        
-        this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);    
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);    
     }
 
     async run(msg, { filter, limit, member }) {

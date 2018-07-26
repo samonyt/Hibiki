@@ -1,4 +1,14 @@
 module.exports = {
+
+    /*
+        The blacklist message. Used when an user is blacklisted from using your bot.
+        Placeholders:
+        * <user> - The user's tag.
+        * <bot> - The bot's tag.
+        * <owner> - The owner's tag.
+    */
+    
+    blacklistMessage: '',
     
     /*
         The callback URL for your bot. Used for dashboard login.
