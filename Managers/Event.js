@@ -1,9 +1,8 @@
 const { readdir } = require('fs');
-const { error } = require('winston');
 
 module.exports = async (client) => {
     readdir('./Events/', (err, files) => {
-        if (err) return error(err);
+        if (err) return client.logger.error(err);
         files.forEach(file => {
             const event = require(`../Events/${file}`);
             let eventName = file.split('.')[0];

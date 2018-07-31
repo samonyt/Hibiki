@@ -1,5 +1,6 @@
 const path = require('path');
 const { URL } = require('url');
+const Raven = require('raven');
 const winston = require('winston');
 
 const Star = require('../Models/Star');
@@ -91,6 +92,7 @@ module.exports = class Starboard {
 
                 return extensions.has(ext);
             } catch (err) {
+                Raven.captureException(err);
                 if (err.message !== 'Invalid URL') winston.error(err);
 
                 return false;
@@ -105,6 +107,7 @@ module.exports = class Starboard {
                     const ext = path.extname(url.pathname);
                     if (extensions.has(ext)) attachmentImage = linkMatch[0]; // eslint-disable-line max-depth
                 } catch (err) {
+                    Raven.captureException(err);
                     if (err.message === 'Invalid URL') winston.info('No valid image link.'); // eslint-disable-line max-depth
                     else winston.error(err);
                 }

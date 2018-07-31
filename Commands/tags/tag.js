@@ -1,32 +1,34 @@
 const { Command } = require('discord.js-commando');
+const Tag = require('../../Models/Tag');
 
-module.exports = class Tag extends Command {
+module.exports = class TagCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'tag',
-            aliases: ['t', 'tag-show'],
             group: 'tags',
             memberName: 'tag',
-            description: 'Shows a tag.',
-            details: 'Get the content of a tag in this guild.',
-            examples: ['tag <tag-name>'],
-            format: '[tag-name]',
+            description: 'Displays a tag.',
             guildOnly: true,
+            throttling: {
+                usages: 2,
+                duration: 3
+            },
+
             args: [{
-                key: 'tagname',
-                prompt: 'Which tag would you like to use?',
+                key: 'name',
+                label: 'tagname',
+                prompt: 'what tag would you like to see?\n',
                 type: 'string',
-            }],
+                parse: str => str.toLowerCase()
+            }]
         });
     }
 
-    async run(msg, { tagname }) {
-        const provider = this.client.provider;
-        const tags = provider.get(msg.guild, 'tags', []);
-        const toSay = tags.find((tag) => {
-            if (tagname === tag.trigger) return tag;
-        });
-        if (toSay) return msg.say(toSay.content);
-        msg.say(`❎ | Tag \`${tagname}\` does not exist.`);
+    async run(msg, { name }) {
+        const tag = await Tag.findOne({ where: { name, guildID: msg.guild.id } });
+        if (!tag) return null;
+        tag.increment('uses');
+
+        return msg.say(tag.content);
     }
 };

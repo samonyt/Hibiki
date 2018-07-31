@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class MDN extends Command {
     constructor(client) {
@@ -37,6 +38,7 @@ module.exports = class MDN extends Command {
                 .setDescription(data.excerpt);
             return msg.embed(embed);
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

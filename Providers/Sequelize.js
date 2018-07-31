@@ -1,4 +1,5 @@
 const { SettingProvider } = require('discord.js-commando');
+const Raven = require('raven');
 const Sequelize = require('sequelize');
 
 /**
@@ -77,6 +78,7 @@ class SequelizeProvider extends SettingProvider {
             try {
                 settings = JSON.parse(row.dataValues.settings);
             } catch (err) {
+                Raven.captureException(err);
                 client.emit('warn', `SequelizeProvider couldn't parse the settings stored for guild ${row.dataValues.guild}.`);
                 continue;
             }

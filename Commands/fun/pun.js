@@ -1,4 +1,6 @@
 const { Command } = require('discord.js-commando');
+const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Pun extends Command {
     constructor(client) {
@@ -11,10 +13,11 @@ module.exports = class Pun extends Command {
     }
 
     async run(msg) {
-        const { pun } = this.client.modules.API;
+        const { body } = await get('https://getpuns.herokuapp.com/api/random');
         try {
-            return msg.say(pun());
+            return msg.say(JSON.parse(body).Pun);
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
-const { info } = require('winston');
 const { guildLog } = require('../Config');
 
 module.exports = async (client, guild) => {
@@ -21,5 +20,5 @@ module.exports = async (client, guild) => {
 
             View all commands by typing \`${client.commandPrefix}help\`.
 `);
-    await info(`[NEW GUILD]: ${guild.name} (${guild.id})`);
+    await client.logger.info(`[NEW GUILD]: ${guild.name} (${guild.id})`);
 };

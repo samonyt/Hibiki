@@ -1,4 +1,6 @@
 const { Command } = require('discord.js-commando');
+const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class FML extends Command {
     constructor(client) {
@@ -12,10 +14,11 @@ module.exports = class FML extends Command {
     }
 
     async run(msg) {
-        const { fml } = this.client.modules.API;
+        const { body } = await get('https://api.alexflipnote.xyz/fml');
         try {
-            return msg.say(fml());
+            return msg.say(body.text);
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

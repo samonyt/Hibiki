@@ -1,13 +1,14 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class NPM extends Command {
     constructor(client) {
         super(client, {
             name: 'npm',
             aliases: ['npm-package'],
-            group: 'info',
+            group: 'information',
             memberName: 'npm',
             description: 'Searches information about an NPM package.',
             examples: ['npm <npm package name here>'],
@@ -45,6 +46,7 @@ module.exports = class NPM extends Command {
                 .addField('❯ Maintainers', maintainers.join(', '));
             return msg.embed(embed);
         } catch (err) {
+            Raven.captureException(err);
             if (err.status === 404) return msg.say('❎ | NPM package not found.');
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give them this message: \`${err.message}\``);
         }

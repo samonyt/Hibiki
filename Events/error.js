@@ -1,5 +1,3 @@
-const { error } = require('winston');
-
 module.exports = async (client, err) => {
-    await error(`[ERROR]:\n${err.stack}`);
+    await client.logger.error(`[ERROR]:\n${err.stack}`);
 };

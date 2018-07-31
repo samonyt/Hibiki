@@ -125,10 +125,24 @@ module.exports = {
     owner: '',
 
     /*
-        Set if the account is user or just a bot.
+        How many paginated items per page.
     */
 
-    selfbot: false,
+    paginated_items: 10,
+
+    /*
+        Redis host. (default is localhost)
+    */
+
+    redisHost: 'localhost',
+
+    /*
+        Your Sentry DSN key.
+        Leave empty to disable Sentry.
+
+    */
+
+    sentry: '',
 
     /*
         Your Discord bot's token. 

@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Wikipedia extends Command {
     constructor(client) {
@@ -43,6 +44,7 @@ module.exports = class Wikipedia extends Command {
                 .setDescription(this.client.modules.Util.shorten(data.extract.replace(/\n/g, '\n\n')));
             return msg.embed(embed);
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
 const { geniusKey } = require('../../Config/');
+const Raven = require('raven');
 
 module.exports = class LyricsCommand extends Command {
     constructor(client) {
@@ -35,6 +36,7 @@ module.exports = class LyricsCommand extends Command {
                 };
                 msg.say('🔎 | Type "next" for the next search result.', { embed });
             } catch (e) {
+                Raven.captureException(e);
                 return msg.say('❎ | There are no more results for this search.');
             }
             msg.member.currentSearch = msg.channel.createMessageCollector((m) => m.author.id == msg.author.id && m.channel.id == msg.channel.id && m.content.toLowerCase() == 'next', { time: 30000, maxMatches: 1 });

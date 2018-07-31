@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const Raven = require('raven');
 
 module.exports = class SpoopyLinkCommand extends Command {
     constructor(client) {
@@ -22,6 +23,7 @@ module.exports = class SpoopyLinkCommand extends Command {
             const check = await spoopy(site);
             return msg.say(check);
         } catch (err) {
+            Raven.captureException(err);
             return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
         }
     }

@@ -1,5 +1,6 @@
 const { gistKey } = require('../Config');
 const { error } = require('winston');
+const Raven = require('raven');
 
 module.exports = async (content) => {
     let gist;
@@ -14,6 +15,7 @@ module.exports = async (content) => {
             }
         });
     } catch (err) {
+        Raven.captureException(err);
         error(err.stack);
     }
 

@@ -5,22 +5,24 @@ module.exports = async (client) => {
         .registerDefaultTypes()
         .registerTypesIn(join(__dirname, '..', 'Types'))
         .registerGroups([
-            ['analyze', 'Analyzation'],
-            ['fun', 'Fun'],
-            ['games', 'Games'],
-            ['image', 'Images'],
-            ['image-edit', 'Image editing'],
-            ['info', 'Information'],
-            ['mod', 'Moderation'],
-            ['nsfw', 'NSFW'],
-            ['owner', 'Owner-only'],
-            ['rep', 'Reputation'],
-            ['roleplay', 'Roleplay'],
-            ['search', 'Search'],
-            ['settings', 'Settings'],
-            ['tags', 'Tagging'],
-            ['text', 'Text editing'],
-            ['util', 'Utility']
+            ['analyze', '🤔 Analyzation commands'],
+            ['economy', '💸 Economy commands'],
+            ['encryption', '🔒 Encryption commands'],
+            ['fun', '😄 Fun commands'],
+            ['games', '🎮 Games commands'],
+            ['image', '🖼 Image commands'],
+            ['image-edit', '🖌 Image editing commands'],
+            ['information', 'ℹ Information commands'],
+            ['moderation', '🔨 Moderation commands'],
+            ['nsfw', '🔞 NSFW commands'],
+            ['reputation', '📈 Reputation commands'],
+            ['roleplay', '❤ Roleplay commands'],
+            ['search', '🔎 Search commands'],
+            ['settings', '⚙ Settings commands'],
+            ['system', '🔧 System commands'],
+            ['tags', '🏷 Tagging commands'],
+            ['text-edit', '🗨 Text editing commands'],
+            ['utility', '🛠 Utility commands']
         ])
         .registerDefaultCommands({
             help: false,

@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class TheFloorIsCommand extends Command {
     constructor(client) {
@@ -34,6 +35,7 @@ module.exports = class TheFloorIsCommand extends Command {
                 });
             return msg.say({ files: [{ attachment: body, name: 'floor.png' }] });
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

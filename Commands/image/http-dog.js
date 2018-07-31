@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class HTTPDog extends Command {
     constructor(client) {
@@ -27,6 +28,7 @@ module.exports = class HTTPDog extends Command {
             if (headers['content-type'].includes('text/html')) return msg.say('I didn\'t found any results. Try again later.');
             return msg.say({ files: [{ attachment: body, name: 'code.png' }] });
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

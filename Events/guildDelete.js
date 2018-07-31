@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const { info } = require('winston');
 const { guildLog } = require('../Config');
 
 module.exports = async (client, guild) => {
@@ -14,5 +13,5 @@ module.exports = async (client, guild) => {
         .addField('Member count', guild.memberCount, true)
         .addField('Created at', `\`${guild.createdAt.toLocaleString()}\``, true);
     await client.channels.get(guildLog).send({ embed });
-    await info(`[GUILD LEFT]: ${guild.name} (${guild.id})`);
+    await client.logger.info(`[GUILD LEFT]: ${guild.name} (${guild.id})`);
 };

@@ -5,7 +5,7 @@ module.exports = class Discrim extends Command {
         super(client, {
             name: 'discrim',
             aliases: ['discriminator'],
-            group: 'info',
+            group: 'information',
             memberName: 'discrim',
             description: 'Find the usernames of a certain discriminator.',
             guildOnly: true,

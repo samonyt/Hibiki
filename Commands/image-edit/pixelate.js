@@ -1,4 +1,6 @@
 const { Command } = require('discord.js-commando');
+const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Pixelate extends Command {
     constructor(client) {
@@ -13,18 +15,20 @@ module.exports = class Pixelate extends Command {
                 duration: 3
             },
             args: [{
-                key: 'user',
+                key: 'image',
                 prompt: 'Who do you want to pixelate?\n',
-                type: 'user',
+                type: 'image|avatar',
             }]
         });
     }
 
-    async run(msg, { user }) {
-        const { pixelate } = this.client.modules.API;
+    async run(msg, { image }) {
+        const { body } = await get('https://api.alexflipnote.xyz/pixelate')
+            .query({ image });
         try {
-            return msg.say({ files: [{ attachment: pixelate(user.displayAvatarURL({ size: 2048 })), name: 'pixelate.png' }] });
+            return msg.say({ files: [{ attachment: body, name: 'pixelate.png' }] });
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

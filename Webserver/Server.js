@@ -1,5 +1,4 @@
 const { callbackURL, clientID, clientSecret, owner, webserverPort } = require('../Config');
-const { info } = require('winston');
 const { Strategy } = require('passport-discord');
 const express = require('express');
 const session  = require('express-session');
@@ -8,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const scope = ['identify', 'guilds', 'email'];
+const Raven = require('raven');
 
 const getAuthUser = user => ({
     username: user.username,
@@ -88,6 +88,7 @@ module.exports = (client) => {
                     });
                 } else res.sendStatus(403).send('Forbidden.');
             } catch (err) {
+                Raven.captureException(err);
                 res.render('login_err', { client });
             } 
         })
@@ -116,5 +117,5 @@ module.exports = (client) => {
         return res.redirect('/login/');
     }
 
-    app.listen(webserverPort, () => info(`[WEBSERVER]: Succesfully started webserver at port ${webserverPort}.`));
+    app.listen(webserverPort, () => client.logger.info(`[WEBSERVER]: Succesfully started webserver at port ${webserverPort}.`));
 };

@@ -2,12 +2,13 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
 const { weatherKey } = require('../../Config');
+const Raven = require('raven');
 
 module.exports = class Weather extends Command {
     constructor(client) {
         super(client, {
             name: 'weather',
-            group: 'info',
+            group: 'information',
             memberName: 'weather',
             description: 'Gives weather information about providen city/country, etc.',
             examples: ['weather Japan'],
@@ -47,6 +48,7 @@ module.exports = class Weather extends Command {
                     body.current.humidity, true);
             msg.say(`ℹ | Weather information about ${body.location.country}`, { embed });
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

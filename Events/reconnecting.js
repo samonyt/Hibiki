@@ -1,5 +1,3 @@
-const { warn } = require('winston');
-
-module.exports = () => {
-    warn('[RECONNECTING]: Reconnecting..');
+module.exports = (client) => {
+    client.logger.warn('[RECONNECTING]: Reconnecting..');
 };

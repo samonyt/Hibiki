@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const math = require('mathjs');
+const Raven = require('raven');
 
 module.exports = class Math extends Command {
     constructor(client) {
@@ -17,12 +18,17 @@ module.exports = class Math extends Command {
         });
     }
 
-    run(msg, { query }) {
+    async run(msg, { query }) {
         try {
+
+            if (query.includes('eval')) return msg.say('https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Twemoji_2b50.svg/2000px-Twemoji_2b50.svg.png');
+            if (query == 'gay') return msg.say(':gay_pride_flag:');
             const num = math.eval(query);
+
             return msg.say(num);
         } catch (err) {
-            msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
+            Raven.captureException(err);
+            msg.say(err.message);
         }
     }
 };

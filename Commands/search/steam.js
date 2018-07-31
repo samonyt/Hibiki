@@ -1,13 +1,14 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Steam extends Command {
     constructor(client) {
         super(client, {
             name: 'steam',
             aliases: ['steam-user'],
-            group: 'info',
+            group: 'information',
             memberName: 'steam',
             description: 'Searches user on Steam and returns information',
             examples: ['steam <user steam id here>'],
@@ -46,6 +47,7 @@ module.exports = class Steam extends Command {
                     body.id.customurl, true);
             return msg.embed(embed);
         } catch (err) {
+            Raven.captureException(err);
             return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }

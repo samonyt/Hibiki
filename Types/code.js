@@ -1,4 +1,5 @@
 const { ArgumentType } = require('discord.js-commando');
+const Raven = require('raven');
 const codeblock = /```(?:(\S+)\n)?\s*([^]+?)\s*```/i;
 
 module.exports = class CodeArgumentType extends ArgumentType {
@@ -16,6 +17,7 @@ module.exports = class CodeArgumentType extends ArgumentType {
                 const message = await msg.channel.messages.fetch(code);
                 code = message.content;
             } catch (err) {
+                Raven.captureException(err);
                 return { code, lang: null };
             }
         }
