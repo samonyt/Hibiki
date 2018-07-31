@@ -18,7 +18,9 @@ module.exports = class Encrypt extends Command {
 
     run(msg, { text }) {
         try {
-            msg.say(`🔐 \`${this.client.encryptor.encrypt(text)}\``);
+            const encrypt = this.client.encryptor.encrypt(text);
+            if (encrypt.length > 1024) return msg.say(this.client.modules.GithubGist(encrypt));
+            return msg.say(`🔐 \`${encrypt}\``);
         } catch (err) {
             Raven.captureException(err);
             return msg.say('I was unable to encrypt your message.');

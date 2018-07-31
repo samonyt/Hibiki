@@ -19,14 +19,15 @@ module.exports = class Math extends Command {
     }
 
     async run(msg, { query }) {
+        const num = math.eval(query);
         try {
 
             if (query.includes('eval')) return msg.say('https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Twemoji_2b50.svg/2000px-Twemoji_2b50.svg.png');
             if (query == 'gay') return msg.say(':gay_pride_flag:');
-            const num = math.eval(query);
 
             return msg.say(num);
         } catch (err) {
+            if (!num) return msg.say('You\'ve evaluated an query that returns nothing; refusing to send.');
             Raven.captureException(err);
             msg.say(err.message);
         }

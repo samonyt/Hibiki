@@ -36,12 +36,14 @@ module.exports = (client) => {
         }))
         .use(cookieParser());
     
-    passport.serializeUser(function(user, done) {
-        done(null, user);
-    });
-    passport.deserializeUser(function(obj, done) {
-        done(null, obj);
-    });
+    passport
+        .serializeUser(function(user, done) {
+            done(null, user);
+        });
+    passport
+        .deserializeUser(function(obj, done) {
+            done(null, obj);
+        });
     passport.use(new Strategy({ clientID, clientSecret, callbackURL, scope }, 
         function(accessToken, refreshToken, profile, done) {
             process.nextTick(function() {
@@ -56,8 +58,8 @@ module.exports = (client) => {
         }))
         .use(passport.initialize())
         .use(passport.session())
-        .use('/pub/:type', (req, res, next) => {
-            express.static(`${__dirname}/public/${req.params.type}`, { maxAge: 86400000 })(req, res, next);
+        .use('/static/:type', (req, res, next) => {
+            express.static(`${__dirname}/static/${req.params.type}`, { maxAge: 86400000 })(req, res, next);
         })
         .get('/', (req, res) => {
             res.render('landing', { 
@@ -66,7 +68,9 @@ module.exports = (client) => {
             });
         })
         .get('/stats', (req, res) => {
-            res.render('stats', { client });
+            res.render('stats', { 
+                client 
+            });
         })
         .get('/api', async (req, res) => {
             res.json({
@@ -93,19 +97,27 @@ module.exports = (client) => {
             } 
         })
         .get('/dashboard', checkAuth, (req, res) => {
-            res.render('dashboard', { client, modules: client.modules, user: req.user });
+            res.render('dashboard', { 
+                client, user: req.user 
+            });
         })
         .get('/dashboard/server/:id', checkAuth, (req, res) => {
             const guild = client.guilds.get(req.params.id);
-            res.render('guildInfo', { client, guild, user: req.user });
+            res.render('guildInfo', { 
+                client, guild, user: req.user 
+            });
         })
-        .get('/login', passport.authenticate('discord', { scope }))
+        .get('/login', passport.authenticate('discord', { 
+            scope 
+        }))
         .get('/login/callback', passport.authenticate('discord', { failureRedirect: '/login/fail' }), 
             function(req, res) { 
                 res.redirect('/dashboard'); 
             })
         .get('/login/fail', (req, res, next) => { // eslint-disable-line no-unused-vars
-            res.render('login_err', { client });
+            res.render('login_err', { 
+                client 
+            });
         })
         .get('/logout', checkAuth, (req, res) => {
             req.logout();
@@ -117,5 +129,7 @@ module.exports = (client) => {
         return res.redirect('/login/');
     }
 
-    app.listen(webserverPort, () => client.logger.info(`[WEBSERVER]: Succesfully started webserver at port ${webserverPort}.`));
+    app.listen(webserverPort, () => {
+        client.logger.info(`[WEBSERVER]: Succesfully started webserver at port ${webserverPort}.`);
+    });
 };

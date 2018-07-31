@@ -24,6 +24,15 @@ module.exports = class Help extends Command {
     }
 
     async run(msg, { command }) {
+        if (msg.author.id === this.client.options.owner) {
+            return msg.say({
+                embed: {
+                    color: 0xFF0000,
+                    title: ':x: Error!',
+                    description: 'The bot does not have permission to do this in your server.'
+                }
+            });
+        }
         if (!command) {
             const embed = new MessageEmbed()
                 .setTitle('Command List')
