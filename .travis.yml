@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - '10'
 before_install:
-  - sudo apt install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev 
+  - sudo apt-get install libcairo2-dev libjpeg62-turbo-dev libpango1.0-dev libgif-dev build-essential g++
 install: npm i
 jobs:
   include:
