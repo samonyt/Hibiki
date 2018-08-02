@@ -5,6 +5,7 @@ node_js:
 before_install:
   - sudo apt update
   - sudo apt install gcc-4.8 build-essential libcairo2-dev libpango1.0-dev
+  - export CXX="gcc-4.8"
 install: npm i
 jobs:
   include:
