@@ -4,7 +4,7 @@ node_js:
   - '10'
 before_install:
   - sudo apt update
-  - sudo apt install build-essential libcairo2-dev libpango1.0-dev
+  - sudo apt install g++-4.8 build-essential libcairo2-dev libpango1.0-dev
 install: npm i
 jobs:
   include:
