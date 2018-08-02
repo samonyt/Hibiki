@@ -34,6 +34,11 @@ module.exports = class Hibiki extends CommandoClient {
             this.logger.error(`[UNHANDLED PROMISE REJECTION]:\n${err.stack}`);
         });
 
+        process.on('SIGINT', () => {
+            this.logger.info(`[PROCESS] Received SIGINT, terminating bot. Total commands ran today: ${this.cmdsUsed}`);
+            process.exit();
+        });
+
     }
 
     async dbInit () {
@@ -50,12 +55,12 @@ module.exports = class Hibiki extends CommandoClient {
         await Event(this);
         await this.logger.info('[EVENT HANDLER]: Succesfully loaded.');
 
+        await this.logger.info('[DISCORD]: Connecting to Discord..');
+        await this.login(token);
+
         await this.logger.info('[WEBSERVER]: Starting webserver..');
         await Webserver(this);
 
         await this.dbInit();
-        
-        await this.logger.info('[DISCORD]: Connecting to Discord..');
-        await this.login(token);
     }
 };

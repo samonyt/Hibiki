@@ -19,6 +19,7 @@ module.exports = async (client) => {
             ['roleplay', '❤ Roleplay commands'],
             ['search', '🔎 Search commands'],
             ['settings', '⚙ Settings commands'],
+            ['social', '📟 Social commands'],
             ['system', '🔧 System commands'],
             ['tags', '🏷 Tagging commands'],
             ['text-edit', '🗨 Text editing commands'],

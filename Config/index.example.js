@@ -83,6 +83,18 @@ module.exports = {
     games: ['your', 'games', 'here!'],
 
     /*
+        Google API key.
+    */
+
+    googleAPI: '',
+
+    /*
+        Google Custom search ID.
+    */
+
+    googleSearchID: '',
+
+    /*
         GitHub Gist API key.
         Go to GitHub, Profile Settings, Developer Settings and then go to Personal Access Tokens.
         Create a new app with "gist" permissions.

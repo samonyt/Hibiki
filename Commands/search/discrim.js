@@ -5,7 +5,7 @@ module.exports = class Discrim extends Command {
         super(client, {
             name: 'discrim',
             aliases: ['discriminator'],
-            group: 'information',
+            group: 'search',
             memberName: 'discrim',
             description: 'Find the usernames of a certain discriminator.',
             guildOnly: true,
@@ -30,7 +30,7 @@ module.exports = class Discrim extends Command {
     async run(msg, { discrim }) {
         this.fetch(msg.client, discrim).then(results => {
             if (!results) return msg.say(`No users found with discriminator **${discrim}**.`);
-            msg.say(`ℹ | I found **${results.length}** users with discriminator **${discrim}**:\n\`\`\`fix\n${results.join(', ')}\`\`\``);
+            return msg.say(`ℹ | I found **${results.length}** users with discriminator **${discrim}**:\n\`\`\`fix\n${results.join(', ')}\`\`\``);
         });
     }
 };

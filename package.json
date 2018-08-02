@@ -26,6 +26,7 @@
   "homepage": "https://github.com/HibikiTeam/Hibiki/blob/master/README.md",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "canvas": "^2.0.0-alpha.12",
     "common-tags": "^1.8.0",
     "cookie-parser": "^1.4.3",
     "discord.js": "github:discordjs/discord.js#master",
@@ -34,7 +35,6 @@
     "eslint": "^4.19.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "jimp": "^0.2.28",
     "mathjs": "^5.0.2",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",
