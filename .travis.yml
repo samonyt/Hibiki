@@ -1,4 +1,4 @@
-sudo: true
+sudo: required
 language: node_js
 node_js:
   - '10'
@@ -9,4 +9,4 @@ jobs:
   include:
     - stage: test
       script: bash ./Travis/test.sh
-dist: trusty
+dist: bionic
