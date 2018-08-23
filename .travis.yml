@@ -1,14 +1,5 @@
-sudo: required
+sudo: false
 language: node_js
 node_js:
   - '10'
-before_install:
-  - sudo apt update
-  - sudo apt install gcc-4.8 build-essential libcairo2-dev libpango1.0-dev
-  - export CXX="gcc-4.8"
-install: npm i
-jobs:
-  include:
-    - stage: test
-      script: bash ./Travis/test.sh
-dist: bionic
+install: npm i -g eslint

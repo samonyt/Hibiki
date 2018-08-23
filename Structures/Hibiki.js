@@ -6,7 +6,6 @@ const { color, token } = require('../Config');
 const winston = require('winston');
 const Database = require('../Structures/PostgreSQL');
 const Redis = require('./Redis');
-const Webserver = require('../Webserver/Server');
 const Command = require('../Handlers/Command');
 const Event = require('../Handlers/Event');
 
@@ -29,14 +28,14 @@ module.exports = class Hibiki extends CommandoClient {
 
         this.encryptor = new this.modules.Encryption();
 
-        process.on('unhandledRejection', err => {
+        process.on('unhandledRejection', async (err) => {
             if (err.code === 50006 || err.code === 50007 || err.code === 50013) return;
-            this.logger.error(`[UNHANDLED PROMISE REJECTION]:\n${err.stack}`);
+            await this.logger.error(`[UNHANDLED PROMISE REJECTION]:\n${err.stack}`);
         });
 
-        process.on('SIGINT', () => {
-            this.logger.info(`[PROCESS] Received SIGINT, terminating bot. Total commands ran today: ${this.cmdsUsed}`);
-            process.exit();
+        process.on('SIGINT', async () => {
+            this.logger.info(`[PROCESS] Received SIGINT, terminating bot.\nTotal commands ran today: ${this.cmdsUsed}`);
+            await process.exit();
         });
 
     }
@@ -57,9 +56,6 @@ module.exports = class Hibiki extends CommandoClient {
 
         await this.logger.info('[DISCORD]: Connecting to Discord..');
         await this.login(token);
-
-        await this.logger.info('[WEBSERVER]: Starting webserver..');
-        await Webserver(this);
 
         await this.dbInit();
     }

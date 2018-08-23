@@ -24,18 +24,22 @@ module.exports = class Exec extends Command {
         return this.client.isOwner(msg.author);
     }
 
-    async run(msg, args) {
-        exec(args.code, (err, stdout) => {
+    async run(msg, { code }) {
+        exec(code, (err, stdout) => {
             if (err) {
-                return msg.say(stripIndents`
-                🚫 **Error**
-                \`\`\`${err.message}\`\`\`
-                `);
+                return msg.say(`\`\`\`${stripIndents`
+                    $ ${code} 
+                    
+                    ${err.message}
+                    \`\`\`
+                `}`);
             }
-            return msg.say(stripIndents`
-                ℹ **Output**
-                \`\`\`${stdout}\`\`\`
-            `);
+            return msg.say(`\`\`\`${stripIndents`
+                    $ ${code} 
+            
+                    ${stdout ? stdout : 'Command ran with an empty response.'}
+                    \`\`\`
+            `}`);
         });
     }
 };

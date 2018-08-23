@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
-const { geniusKey } = require('../../Config/');
+const { lyricsKey } = require('../../Config/');
 const Raven = require('raven');
 
 module.exports = class LyricsCommand extends Command {
@@ -28,24 +28,35 @@ module.exports = class LyricsCommand extends Command {
         const sayFunction = async (resultsArray) => {
             try {
                 const targetResult = resultsArray.splice(0, 1)[0].result;
+                this.client.logger.info(targetResult);
                 const embed = {
                     color: 0xFFFF64,
-                    title: `${targetResult.primary_artist.name} - ${targetResult.title}`,
+                    description: `[${targetResult.primary_artist.name} - ${targetResult.title}](https://genius.com${targetResult.api_path})`,
                     thumbnail: { url: targetResult.song_art_image_thumbnail_url },
-                    fields: [{ name: 'Link', value: `https://genius.com${targetResult.api_path }`}],
+                    fields: [{ 
+                        name: 'Link', 
+                        value: `https://genius.com${targetResult.api_path}`
+                    }, {
+                        name: 'Verified Lyrics', 
+                        value: targetResult.is_verified ? 'No' : 'Yes'
+                    }]
                 };
-                msg.say('🔎 | Type "next" for the next search result.', { embed });
+                msg.say('🔎 | Type `next` for the next search result.', { embed });
             } catch (e) {
                 Raven.captureException(e);
+                this.client.logger.error(e.message);
                 return msg.say('❎ | There are no more results for this search.');
             }
             msg.member.currentSearch = msg.channel.createMessageCollector((m) => m.author.id == msg.author.id && m.channel.id == msg.channel.id && m.content.toLowerCase() == 'next', { time: 30000, maxMatches: 1 });
             msg.member.currentSearch.on('collect', () => sayFunction(resultsArray));
         };
-        return request(`https://api.genius.com/search?access_token=${geniusKey}&q=${query}`, { json: true })
+        return request(`https://api.genius.com/search?access_token=${lyricsKey}&q=${query}`, { json: true })
             .then(async (d) => {
                 sayFunction(d.response.hits);
             })
-            .catch(() => msg.say('❎ | I didn\'t find a song by that title, try another.'));
+            .catch((err) => {
+                this.client.logger.error(err.message);
+                msg.say('❎ | I didn\'t find a song by that title, try another.');
+            });
     }
 };

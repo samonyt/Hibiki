@@ -9,12 +9,17 @@ const {
 const Client = require('./Structures/Hibiki');
 const SequelizeProvider = require('./Providers/Sequelize');
 
+const Currency = require('./Structures/Currency');
+const Experience = require('./Structures/Experience');
+
+let earnedRecently = [];
+let gainedXPRecently = [];
+
 const Hibiki = new Client({ 
     commandPrefix, disableEveryone, invite, owner, unknownCommandResponse
 });
 
 Hibiki.start();
-Hibiki.setProvider(new SequelizeProvider(Hibiki.database)).catch(Hibiki.logger.error);
 
 if (sentry) {
     Raven.config(sentry).install();
@@ -29,12 +34,6 @@ Hibiki.dispatcher.addInhibitor(msg => {
         .replace(/(<owner>)/, Hibiki.users.get(Hibiki.options.owner).tag);
     return msg.say(message);
 });
-
-const Currency = require('./Structures/Currency');
-const Experience = require('./Structures/Experience');
-
-let earnedRecently = [];
-let gainedXPRecently = [];
 
 Hibiki
     .once('ready', () => Currency.leaderboard())
@@ -129,3 +128,5 @@ Hibiki
 			${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.
         `);
     });
+
+Hibiki.setProvider(new SequelizeProvider(Hibiki.database)).catch(Hibiki.logger.error);

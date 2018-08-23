@@ -18,30 +18,28 @@ module.exports = class User extends Command {
             args: [{
                 key: 'member',
                 prompt: 'Which user you want to get the information of?\n',
-                type: 'member'
+                type: 'member',
+                default: msg => msg.member
             }]
         });
     }
+
+    switchStatus(s) {
+        if (s == 'online') return 'online';
+        if (s == 'idle') return 'away';
+        if (s == 'dnd') return 'busy';
+        if (s == 'offline') return 'off';
+    }
+
     run(msg, { member }) {
         const embed = new MessageEmbed()
             .setColor(member.displayHexColor)
-            .setThumbnail(member.user.displayAvatarURL({ format: 'png' }))
-            .addField('❯ Username',
-                member.user.tag, true)
-            .addField('❯ ID',
-                member.id, true)
-            .addField('❯ Created at',
-                member.user.createdAt.toDateString(), true)
-            .addField('❯ Joined at',
-                member.joinedAt.toDateString(), true)
-            .addField('❯ Nickname',
-                member.nickname || 'None', true)
-            .addField('❯ Is bot?',
-                member.user.bot ? 'Yes' : 'No', true)
-            .addField('❯ Status',
-                this.client.modules.Status(member.user.presence.status), true)
-            .addField('❯ Playing',
-                member.user.presence.game ? member.user.presence.game.name : 'Nothing', true);
+            .setAuthor(`${member.user.tag} (${member.id})`, member.user.displayAvatarURL())
+            .setDescription(`${member.user.bot ? 'Bot' : 'User'} is ${this.switchStatus(member.user.presence.status)} ${member.user.presence.game ? `, plays \`${member.user.presence.game.name}\`` : ''}`)
+            .addField('Created on',
+                `${member.user.createdAt.toDateString()}`, true)
+            .addField('Joined on',
+                `${member.joinedAt.toDateString()}`, true);
         msg.embed(embed);
     }
 };

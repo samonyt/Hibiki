@@ -22,6 +22,6 @@ module.exports = class Avatar extends Command {
         });
     }
     run(msg, { user }) {
-        return msg.say({ files: [{ attachment: user.displayAvatarURL({ format: 'png', size: 2048}), name: 'avatar.png' }] });
+        return msg.say({ files: [{ attachment: user.displayAvatarURL({ size: 2048 }) }] });
     }
 };

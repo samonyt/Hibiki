@@ -3,6 +3,9 @@ const { stripIndents } = require('common-tags');
 const { guildLog } = require('../Config');
 
 module.exports = async (client, guild) => {
+    if (guild.members.filter(m => m.bot).length / guild.members.size >= 0.60) {
+        return guild.leave();
+    }
     const embed = new MessageEmbed()
         .setTitle(`New guild! ${guild.name}`)
         .setThumbnail(guild.iconURL())

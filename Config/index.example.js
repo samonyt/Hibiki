@@ -181,11 +181,5 @@ module.exports = {
         Get yours here: https://www.apixu.com/
     */
 
-    weatherKey: '',
-
-    /*
-        Your webserver port. Can be any up to 99999.
-    */
-
-    webserverPort: 7000
+    weatherKey: ''
 }
