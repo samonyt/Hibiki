@@ -10,7 +10,11 @@ module.exports = class Ping extends Command {
             memberName: 'ping',
             description: 'Measures the bot ping.',
             examples: ['ping'],
-            guarded: true
+            guarded: true,
+            throttling: {
+                usages: 1,
+                duration: 10
+            }
         });
     }
 

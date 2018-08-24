@@ -27,7 +27,7 @@ module.exports = class BlameCommand extends Command {
     }
 
     run(msg, args) {
-        const member = args.member.displayName || 'Crawl';
+        const member = args.member.displayName || 'yourself';
 
         Canvas.registerFont(path.join(__dirname, '..', '..', 'Assets', 'fonts', 'Roboto.ttf'), { family: 'Roboto' }); // eslint-disable-line max-len
         Canvas.registerFont(path.join(__dirname, '..', '..', 'Assets', 'fonts', 'NotoEmoji-Regular.ttf'), { family: 'Roboto' }); // eslint-disable-line max-len

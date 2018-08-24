@@ -3,15 +3,15 @@ const { stripIndents } = require('common-tags');
 const { get } = require('snekfetch');
 const Raven = require('raven');
 
-module.exports = class Color extends Command {
+module.exports = class ColorInfo extends Command {
     constructor(client) {
         super(client, {
-            name: 'color',
-            aliases: ['colour', 'hex'],
+            name: 'color-info',
+            aliases: ['colour-info'],
             group: 'information',
-            memberName: 'color',
+            memberName: 'color-info',
             description: 'Gives information about providen HEX color.',
-            examples: ['color FFFFFF'],
+            examples: ['color-info FFFFFF'],
             args: [{
                 key: 'color',
                 prompt: 'Please, provide a HEX color.\n',

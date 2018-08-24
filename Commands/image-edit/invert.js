@@ -1,15 +1,14 @@
 const { Command } = require('discord.js-commando');
 const { createCanvas, loadImage } = require('canvas');
 const { get } = require('snekfetch');
-const Raven = require('raven');
 
-module.exports = class GlitchCommand extends Command {
+module.exports = class InvertCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'glitch',
+            name: 'invert',
             group: 'image-edit',
-            memberName: 'glitch',
-            description: 'Draws an image or a user\'s avatar but glitched.',
+            memberName: 'invert',
+            description: 'Draws an image or a user\'s avatar but inverted.',
             throttling: {
                 usages: 1,
                 duration: 10
@@ -24,19 +23,18 @@ module.exports = class GlitchCommand extends Command {
     }
 
     async run(msg, { image }) {
-        const { distort } = this.client.modules.Canvas;
+        const { invert } = this.client.modules.Canvas;
         try {
             const { body } = await get(image);
             const data = await loadImage(body);
             const canvas = createCanvas(data.width, data.height);
             const ctx = canvas.getContext('2d');
             ctx.drawImage(data, 0, 0);
-            distort(ctx, 20, 0, 0, data.width, data.height, 5);
+            invert(ctx, 0, 0, data.width, data.height);
             const attachment = canvas.toBuffer();
             if (Buffer.byteLength(attachment) > 8e+6) return msg.reply('Resulting image was above 8 MB.');
-            return msg.say({ files: [{ attachment, name: 'glitch.png' }] });
+            return msg.say({ files: [{ attachment, name: 'invert.png' }] });
         } catch (err) {
-            Raven.captureException(err);
             return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
         }
     }

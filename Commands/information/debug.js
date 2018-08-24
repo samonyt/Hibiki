@@ -27,7 +27,7 @@ module.exports = class Debug extends Command {
         == User ==
         • ID :: ${this.client.user.id}
         • User :: ${this.client.user.tag}
-        • Version :: v${this.client.version}
+        • Version :: ${this.client.version}
 
         == OS ==
         • Memory usage :: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)} MB

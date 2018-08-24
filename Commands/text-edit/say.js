@@ -4,7 +4,7 @@ module.exports = class Say extends Command {
     constructor(client) {
         super(client, {
             name: 'say',
-            aliases: ['repeat', 'parrot'],
+            aliases: ['parrot'],
             group: 'text-edit',
             memberName: 'say',
             description: 'Says your text.',

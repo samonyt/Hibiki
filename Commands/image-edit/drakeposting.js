@@ -31,7 +31,7 @@ module.exports = class DrakepostingCommand extends Command {
         const nahAvatarURL = nah.displayAvatarURL({ format: 'png', size: 512 });
         const yeahAvatarURL = yeah.displayAvatarURL({ format: 'png', size: 512 });
         try {
-            const base = await loadImage(join(__dirname, '..', '..', 'assets', 'images', 'drakeposting.png'));
+            const base = await loadImage(join(__dirname, '..', '..', 'Assets', 'images', 'drakeposting.png'));
             const nahAvatarData = await get(nahAvatarURL);
             const nahAvatar = await loadImage(nahAvatarData.body);
             const yeahAvatarData = await get(yeahAvatarURL);

@@ -20,9 +20,11 @@ module.exports = class Quote extends Command {
     run(msg, { quote }) {
         const embed = new MessageEmbed()
             .setColor(this.client.color)
-            .setAuthor(`${quote.author.tag}`, quote.author.displayAvatarURL())
+            .setAuthor(quote.author.tag, quote.author.displayAvatarURL())
             .setDescription(quote.content)
-            .setFooter(`ID: ${quote.id} | ${quote.createdAt.toLocaleString()} | ${this.client.version}`);
+            .setTimestamp(quote.createdAt)
+            .addField('Jump', quote.url, true)
+            .setFooter(`ID: ${quote.id} | ${this.client.version}`);
         msg.embed(embed);
     }
 };
