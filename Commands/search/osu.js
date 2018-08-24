@@ -2,13 +2,14 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
 const { osuKey } = require('../../Config');
+const Raven = require('raven');
 
 module.exports = class Osu extends Command {
     constructor(client) {
         super(client, {
             name: 'osu',
             aliases: ['osu-user', 'osu-stats'],
-            group: 'info',
+            group: 'information',
             memberName: 'osu',
             description: 'Searches osu! user and returns information.',
             examples: ['osu <osu! username here>'],
@@ -30,37 +31,37 @@ module.exports = class Osu extends Command {
                 });
             if (!body.length) return msg.say('404 Results not found.');
             const data = body[0];
-            const nA = this.client.translate('commands.n/A');
             const embed = new MessageEmbed()
                 .setColor(0xFF66AA)
                 .setAuthor('osu!', 'https://i.imgur.com/hWrw2Sv.png', 'https://osu.ppy.sh/')
-                .addField(this.client.translate('commands.osu.username'),
+                .addField('❯ Username',
                     data.username, true)
-                .addField(this.client.translate('commands.osu.username'),
+                .addField('❯ ID',
                     data.user_id, true)
-                .addField(this.client.translate('commands.osu.level'),
-                    data.level || nA, true)
-                .addField(this.client.translate('commands.osu.accuracy'),
-                    data.accuracy || nA, true)
-                .addField(this.client.translate('commands.osu.rank'),
-                    data.pp_rank || nA, true)
-                .addField(this.client.translate('commands.osu.playCount'),
-                    data.playcount || nA, true)
-                .addField(this.client.translate('commands.osu.country'),
-                    data.country || nA, true)
-                .addField(this.client.translate('commands.osu.rankedScore'),
-                    data.ranked_score || nA, true)
-                .addField(this.client.translate('commands.osu.totalScore'),
-                    data.total_score || nA, true)
-                .addField(this.client.translate('commands.osu.SS'),
-                    data.count_rank_ss || nA, true)
-                .addField(this.client.translate('commands.osu.S'),
-                    data.count_rank_s || nA, true)
-                .addField(this.client.translate('commands.osu.A'),
-                    data.count_rank_a || nA, true);
+                .addField('❯ Level',
+                    data.level || 'N/A', true)
+                .addField('❯ Accuracy',
+                    data.accuracy || 'N/A', true)
+                .addField('❯ Rank',
+                    data.pp_rank || 'N/A', true)
+                .addField('❯ Plays',
+                    data.playcount || 'N/A', true)
+                .addField('❯ Country',
+                    data.country || 'N/A', true)
+                .addField('❯ Score',
+                    data.ranked_score || 'N/A', true)
+                .addField('❯ Total score',
+                    data.total_score || 'N/A', true)
+                .addField('❯ SS',
+                    data.count_rank_ss || 'N/A', true)
+                .addField('❯ S',
+                    data.count_rank_s || 'N/A', true)
+                .addField('❯ A',
+                    data.count_rank_a || 'N/A', true);
             return msg.embed(embed);
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

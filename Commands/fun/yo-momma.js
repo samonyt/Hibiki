@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class YoMomma extends Command {
     constructor(client) {
@@ -13,12 +14,13 @@ module.exports = class YoMomma extends Command {
     }
 
     async run(msg) {
+        const { body } = await get('http://api.yomomma.info')
+            .then(data => JSON.parse(data.text));
         try {
-            const res = await get('http://api.yomomma.info')
-                .then(data => JSON.parse(data.text));
-            return msg.say(res.joke);
+            return msg.say(body.joke);
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

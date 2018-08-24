@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Gender extends Command {
     constructor(client) {
@@ -29,12 +29,13 @@ module.exports = class Gender extends Command {
     }
 
     async run(msg, { first, last }) {
+        const { gender } = this.client.modules.API;
         try {
-            const { body } = await get(`https://api.namsor.com/onomastics/api/json/gender/${first}/${last}`);
-            if (body.gender === 'unknown') return msg.say(this.client.translate('commands.gender.notFound', body.firstName));
-            return msg.say(this.client.translate('commands.gender.response', `${Math.abs(body.scale * 100)}%`, body.firstName, body.gender));
+            const gen = await gender(first, last);
+            return msg.say(gen);
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

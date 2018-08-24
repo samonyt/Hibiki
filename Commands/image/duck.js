@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Duck extends Command {
     constructor(client) {
@@ -17,7 +18,8 @@ module.exports = class Duck extends Command {
             const { body } = await get('https://api.random-d.uk/random');
             return msg.say({ files: [{ attachment: body.url, name: 'duck.png' }] });
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

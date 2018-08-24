@@ -1,11 +1,13 @@
-module.exports = (r) => {
-    switch (r) {
+module.exports = (region) => {
+    switch (region) {
     case 'brazil':
         return 'Brazil :flag_br:';
     case 'eu-central':
         return 'Central Europe :flag_eu:';
+    case 'eu-west':
+        return 'Western Europe :flag_eu:';
     case 'hongkong':
-        return 'Hong Kong :flag_eu:';
+        return 'Hong Kong :flag_hk:';
     case 'london':
         return 'London :flag_gb:';
     case 'japan':
@@ -24,7 +26,5 @@ module.exports = (r) => {
         return 'US South :flag_us:';
     case 'us-west':
         return 'US West :flag_us:';
-    case 'eu-west':
-        return 'Western Europe :flag_eu:';
     }
 };

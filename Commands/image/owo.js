@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class OwO extends Command {
     constructor(client) {
@@ -17,7 +18,8 @@ module.exports = class OwO extends Command {
             const { body } = await get('https://rra.ram.moe/i/r?type=owo');
             return msg.say({ files: [{ attachment: `https://rra.ram.moe/${body.path}`, name: body.path }] });
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

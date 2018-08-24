@@ -1,12 +1,13 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Pixelate extends Command {
     constructor(client) {
         super(client, {
             name: 'pixelate',
             aliases: ['pixel'],
-            group: 'image',
+            group: 'image-edit',
             memberName: 'pixelate',
             description: 'Pixelates your image.',
             throttling: {
@@ -14,22 +15,21 @@ module.exports = class Pixelate extends Command {
                 duration: 3
             },
             args: [{
-                key: 'user',
+                key: 'image',
                 prompt: 'Who do you want to pixelate?\n',
-                type: 'user',
+                type: 'image|avatar',
             }]
         });
     }
 
-    async run(msg, { user }) {
+    async run(msg, { image }) {
+        const { body } = await get('https://api.alexflipnote.xyz/pixelate')
+            .query({ image });
         try {
-            const { body } = await get('https://api.alexflipnote.xyz/pixelate')
-                .query({
-                    image: user.displayAvatarURL({ size: 2048 })
-                });
             return msg.say({ files: [{ attachment: body, name: 'pixelate.png' }] });
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

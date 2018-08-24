@@ -16,6 +16,8 @@ module.exports = class EightBall extends Command {
         });
     }
     run (msg, { question }) {
-        msg.say(this.client.translate('commands.8ball.response', question, answers[Math.floor(Math.random() * answers.length)]));
+        msg.say(question.endsWith('?')
+            ? `❓ Question: **${question}**\n🎱 Answer: **${answers[Math.floor(Math.random() * answers.length)]}**`
+            : 'That doesn\'t look as a question, try again please.');
     }
 };

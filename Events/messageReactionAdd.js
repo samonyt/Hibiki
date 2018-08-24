@@ -1,13 +1,21 @@
-module.exports = (client, reaction, user) => {
+const Starboard = require('../Structures/Starboard');
+
+module.exports = async (client, reaction, user) => {
+    const blacklist = client.provider.get('global', 'blacklistUsers', []);
+    if (blacklist.includes(user.id)) return;
+
     if (reaction.emoji.name !== '⭐') return;
     const { message } = reaction;
-    const channel = message.guild.channels.get(message.guild.settings.get('starboard'));
-    if (!channel) return;
-    if (!message.channel.permissionsFor(client.user).has(['SEND_MESSAGES', 'MANAGE_MESSAGES'])) return;
-    if (user.id === message.author.id) {
+    const starboard = message.guild.channels.get(message.guild.settings.get('starboard'));
+    if (!starboard) return;
+    const isAuthor = await Starboard.isAuthor(message.id, user.id);
+    if (isAuthor || message.author.id === user.id) {
         reaction.users.remove(user);
-        message.reply('You cannot star your own messages!');
-        return;
+        return message.channel.send(`${user}, you can't star your own messages.`); 
     }
-    client.registry.resolveCommand('fun:star').run(message, { id: message.id }, true);
+    const hasStarred = await Starboard.hasStarred(message.id, user.id);
+    if (hasStarred) return;
+    const isStarred = await Starboard.isStarred(message.id);
+    if (isStarred) return Starboard.addStar(message, starboard, user.id);
+    else Starboard.createStar(message, starboard, user.id);
 };

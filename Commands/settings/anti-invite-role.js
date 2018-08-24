@@ -18,11 +18,11 @@ module.exports = class AntiInviteRole extends Command {
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
     }
 
     run(msg, { role }) {
         msg.guild.settings.set('antiInviteRole', role.id);
-        return msg.say(this.client.translate('commands.config.response', 'anti invite role', `${role.name} (${role.id}).`));
+        return msg.say(`✅ | Succesfully set **anti invite role** to **${role.name}** (**${role.id}**).`);
     }
 };

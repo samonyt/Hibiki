@@ -21,8 +21,8 @@ module.exports = class Insult extends Command {
     run(msg, { user }) {
         const random = type => type[Math.floor(Math.random() * type.length)];
         if (user === this.client.user) {
-            return msg.say(this.client.translate('commands.8ball.bot'));
+            return msg.say(`I don't think this is a great idea, ${msg.author.username}.`);
         }
-        msg.say(this.client.translate('commands.8ball.response', user.toString, random(insults.start), random(insults.middle), random(insults.end)));
+        msg.say(`${msg.author.username}, you know what? You're nothing but ${random(insults.start)} ${random(insults.middle)} ${random(insults.end)}`);
     }
 };

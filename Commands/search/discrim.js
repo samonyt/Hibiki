@@ -5,7 +5,7 @@ module.exports = class Discrim extends Command {
         super(client, {
             name: 'discrim',
             aliases: ['discriminator'],
-            group: 'info',
+            group: 'search',
             memberName: 'discrim',
             description: 'Find the usernames of a certain discriminator.',
             guildOnly: true,
@@ -22,17 +22,16 @@ module.exports = class Discrim extends Command {
         });
     }
 
+    fetch (bot, discrim) {
+        return new Promise((resolve, reject) => {  // eslint-disable-line
+            resolve(bot.users.filter(user => user.discriminator === discrim).map(user => user.username));
+        });
+    }
     async run(msg, { discrim }) {
-        fetch(msg.client, discrim).then(results => {
-            if(!results) return msg.say(this.client.translate('commands.discrim.none', discrim));
-            msg.say(this.client.translate('commands.discrim.response', results.length, discrim, results.join(', ')));
+        this.fetch(msg.client, discrim).then(results => {
+            if (!results) return msg.say(`No users found with discriminator **${discrim}**.`);
+            return msg.say(`ℹ | I found **${results.length}** users with discriminator **${discrim}**:\n\`\`\`fix\n${results.join(', ')}\`\`\``);
         });
     }
 };
 
-
-function fetch(bot, discrim) {
-    return new Promise((resolve, reject) => {  // eslint-disable-line no-unused-vars
-        resolve(bot.users.filter(user => user.discriminator === discrim).map(user => user.username));
-    });
-}

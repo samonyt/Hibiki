@@ -18,7 +18,7 @@ module.exports = class AntiInviteRole extends Command {
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
     }
 
     run(msg, { channel }) {

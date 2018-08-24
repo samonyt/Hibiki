@@ -1,6 +1,6 @@
 {
-    "name": "Nadeshiko",
-    "script": "./Nadeshiko.js",
+    "name": "Hibiki",
+    "script": "./bot.js",
     "error_file": "./Logs/err.log",
     "out_file": "./Logs/out.log",
     "log_date_format": "YYYY-MM-DD HH:mm:ss",

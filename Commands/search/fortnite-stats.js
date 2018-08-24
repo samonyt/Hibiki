@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const rp = require('request-promise-native');
 const { fortniteKey } = require('../../Config');
 const platforms = ['pc', 'xbl', 'psn'];
+const Raven = require('raven');
 
 module.exports = class FortniteStats extends Command {
     constructor(client) {
@@ -41,18 +42,18 @@ module.exports = class FortniteStats extends Command {
             };
 
             const stats = await rp(options).catch(err => {
-                return msg.say(this.client.translate('commands.error'), err);
+                return msg.say(`❎ | Something happened with the Fortnite API tracker and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
             });
 
             if (stats.error === 'Player Not Found') {
-                return msg.say(this.client.translate('commands.fortnite.error'));
+                return msg.say('❎ | Player not found.');
             }
 
             return msg.embed({
                 color: this.client.color,
                 title: stats.epicUserHandle,
                 url: `https://fortnitetracker.com/profile/${platform}/${encodeURIComponent(username)}`,
-                footer: { text: this.client.translate('commands.fortnite.footer', this.client.version) },
+                footer: { text: this.client.version },
                 fields: [{
                     name: '🏆 Wins',
                     value: `${stats.lifeTimeStats[8].value || '0'} wins (${stats.lifeTimeStats[9].value || '0'})`,
@@ -72,7 +73,8 @@ module.exports = class FortniteStats extends Command {
                 }]
             });
         } catch (err) {
-            return msg.say(this.client.translate('commands.error', err.message));
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

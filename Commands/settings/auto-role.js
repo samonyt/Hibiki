@@ -17,11 +17,11 @@ module.exports = class AutoRole extends Command {
         });
     }
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
     }
 
     run(msg, { role }) {
         msg.guild.settings.set('autoRole', role.id);
-        return msg.say(this.client.translate('commands.config.response', 'auto role', `${role.name} (${role.id})`));
+        return msg.say(`✅ | Succesfully set **auto role** to **${role.name}** (**${role.id}**).`);
     }
 };

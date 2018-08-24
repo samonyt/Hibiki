@@ -1,11 +1,13 @@
 const { Command } = require('discord.js-commando');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Achievement extends Command {
     constructor(client) {
         super(client, {
             name: 'achievement',
-            group: 'image',
+            aliases: ['achieve'],
+            group: 'image-edit',
             memberName: 'achievement',
             description: 'Sends a Minecraft-like achievement with your text.',
             throttling: {
@@ -23,7 +25,8 @@ module.exports = class Achievement extends Command {
             }, {
                 key: 'item',
                 prompt: 'Select the item ID. (max: 39).',
-                type: 'integer'
+                type: 'integer',
+                default: 1
             }]
         });
     }
@@ -31,14 +34,13 @@ module.exports = class Achievement extends Command {
     async run(msg, { text, item }) {
         try {
             const { body } = await get('https://www.minecraftskinstealer.com/achievement/a.php')
-                .query({
-                    i: item,
-                    h: 'Achievement get!',
-                    t: text
-                });
-            return msg.say({ files: [{ attachment: body, name: 'achievement.png' }] });
+                .query({ i: item, h: 'Achievement get!', t: text });
+            await msg.say({ files: [{ 
+                attachment: body, name: 'achievement.png' 
+            }] });
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

@@ -1,13 +1,14 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { get } = require('snekfetch');
+const Raven = require('raven');
 
 module.exports = class Steam extends Command {
     constructor(client) {
         super(client, {
             name: 'steam',
             aliases: ['steam-user'],
-            group: 'info',
+            group: 'information',
             memberName: 'steam',
             description: 'Searches user on Steam and returns information',
             examples: ['steam <user steam id here>'],
@@ -24,29 +25,30 @@ module.exports = class Steam extends Command {
             const { body } = await get(`https://api.alexflipnote.xyz/steam/user/${user}`);
             const embed = new MessageEmbed()
                 .setColor(0x000000)
-                .setAuthor(this.client.translate('commands.steam.author')[0], this.client.translate('commands.steam.author')[1], this.client.translate('commands.steam.author')[2])
+                .setAuthor('Steam', 'https://cdn.iconscout.com/public/images/icon/free/png-512/steam-social-media-32f32522759972ff-512x512.png', 'https://steamcommunity.com')
                 .setThumbnail(body.avatars.avatarmedium)
-                .addField(this.client.translate('commands.steam.username'),
+                .addField('❯ Username',
                     body.profile.username, true)
-                .addField(this.client.translate('commands.steam.realname'),
-                    body.profile.realname || this.client.translate('commands.n/A'), true)
-                .addField(this.client.translate('commands.steam.timeCreated'),
+                .addField('❯ Real name',
+                    body.profile.realname || 'N/A', true)
+                .addField('❯ Time created',
                     body.profile.timecreated, true)
-                .addField(this.client.translate('commands.steam.summary'),
+                .addField('❯ Description',
                     body.profile.summary || 'None', true)
-                .addField(this.client.translate('commands.steam.state'),
+                .addField('❯ State',
                     body.profile.state, true)
-                .addField(this.client.translate('commands.steam.privacy'),
-                    body.profile.privacy, true)
-                .addField(this.client.translate('commands.steam.location'),
-                    body.profile.location, true)
-                .addField(this.client.translate('commands.steam.vacBans'),
+                .addField('❯ Privacy',
+                    body.profile.privacy || 'N/A', true)
+                .addField('❯ Location',
+                    body.profile.location || 'N/A', true)
+                .addField('❯ VAC bans',
                     `${body.profile.vacbanned}`, true)
-                .addField(this.client.translate('commands.steam.customURL'),
+                .addField('❯ Custom URL',
                     body.id.customurl, true);
             return msg.embed(embed);
         } catch (err) {
-            return msg.say(this.client.translate('commands.error'), err.message);
+            Raven.captureException(err);
+            return msg.say(`❎ | This command has been errored and the devs has been notified about it. Give <@${this.client.options.owner}> this message: \`${err.message}\``);
         }
     }
 };

@@ -1,9 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
-const { info } = require('winston');
 const { guildLog } = require('../Config');
 
 module.exports = async (client, guild) => {
+    if (guild.members.filter(m => m.bot).length / guild.members.size >= 0.60) {
+        return guild.leave();
+    }
     const embed = new MessageEmbed()
         .setTitle(`New guild! ${guild.name}`)
         .setThumbnail(guild.iconURL())
@@ -21,6 +23,5 @@ module.exports = async (client, guild) => {
 
             View all commands by typing \`${client.commandPrefix}help\`.
 `);
-    await info(`[NEW GUILD]: ${guild.name} (${guild.id})`);
-    await client.webhook.send(`\`[${new Date().toLocaleString()}]\` New guild ${guild.name} (${guild.id}, see ${client.channels.get(guildLog)} for more info.`);
+    await client.logger.info(`[NEW GUILD]: ${guild.name} (${guild.id})`);
 };

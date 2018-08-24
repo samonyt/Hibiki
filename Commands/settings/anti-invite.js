@@ -13,11 +13,11 @@ module.exports = class AntiInvite extends Command {
     }
     
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
     }
 
     run(msg) {
         msg.guild.settings.set('antiInvite', true);
-        return msg.say(this.client.translate('commands.config.responseAlt', 'anti invite'));
+        return msg.say('✅ | Succesfully enabled **anti invite** for this server.');
     }
 };

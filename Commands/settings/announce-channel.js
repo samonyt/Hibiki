@@ -18,11 +18,11 @@ module.exports = class AnnounceChannel extends Command {
     }
 
     hasPermission(msg) {
-        return this.client.isOwner(msg.author) || msg.member.permissions.has('MANAGE_SERVER');
+        return this.client.isOwner(msg.author) || this.client.modules.IsStaff(msg.member);
     }
 
     run(msg, { channel }) {
         msg.guild.settings.set('announceChannel', channel.id);
-        return msg.say(this.client.translate('command.config.response', 'announcements channel', `#${channel.name} (${channel.id})`));
+        return msg.say(`✅ | Succesfully set **announcement channel** to **${channel.name}** (**${channel.id}**).`);
     }
 };
