@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = class Util {
     static duration (ms) {
         const sec = Math.floor((ms / 1000) % 60).toString();
@@ -26,5 +28,8 @@ module.exports = class Util {
         if (mode === 'encode') return Buffer.from(text).toString('base64');
         if (mode === 'decode') return Buffer.from(text, 'base64').toString('utf8') || null;
         throw new TypeError(`${mode} is not a supported base64 mode.`);
+    }
+    static hash(text, algorithm) {
+        return crypto.createHash(algorithm).update(text).digest('hex');
     }
 };
