@@ -1,6 +1,6 @@
 {
   "name": "hibiki",
-  "version": "40.3",
+  "version": "40.6.3",
   "description": "Hibiki is an anime-based modular Discord bot for your needs.",
   "main": "bot.js",
   "scripts": {
