@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 
 const Brainfuck = require('brainfuck-node');
-const brainfuck = new Brainfuck({ maxSteps: -1 });
+const brainfuck = new Brainfuck();
 
 module.exports = class Brainfuck extends Command {
     constructor(client) {
